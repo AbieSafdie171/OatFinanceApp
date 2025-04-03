@@ -1,0 +1,164 @@
+.tax-details {
+  background-color: #f9f0e5;
+  width: 250px;
+  height: 400px;
+  margin-left: 50px;
+  flex-shrink: 0; /* Prevent it from shrinking */
+}
+
+.tax-details h3 {
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.tax-container {
+  display: flex;
+  justify-content: flex-start; /* Align items to the start of the container */
+  align-items: flex-start; /* Align them at the top */
+  padding: 10px;
+  gap: 10px; /* Add space between the elements */
+}
+
+.tax-form-group {
+  margin-bottom: 15px;
+}
+
+.tax-form-group label {
+  margin-left: 20px;
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: block;
+  color: #333;
+}
+
+.tax-form-group input,
+.tax-form-group select {
+  margin-left: 20px;
+  width: 80%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.tax-form-group input[type="number"]::placeholder {
+  color: #999;
+}
+
+.tax-form-group .units {
+  font-size: 14px;
+  color: #666;
+  margin-left: 5px;
+}
+
+.tax-chart-section {
+  padding: 10px;
+  width: 500px; /* Set a fixed width for the chart section */
+  height: 400px; /* Set a fixed height for the chart section */
+  display: flex;
+  flex-direction: column; /* Stack the header above the chart */
+  justify-content: center;
+  align-items: center; /* Center the header and chart horizontally */
+  background-color: #f9f0e5;
+}
+
+.tax-chart-section h3 {
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: -20px;
+  margin-bottom: 20px; /* Add some space between the header and the chart */
+}
+
+.tax-chart-section canvas {
+  width: 300px !important;  /* Control the width of the chart */
+  height: 300px !important; /* Control the height of the chart */
+}
+
+.tax-info {
+  background-color: #f9f0e5;
+  width: 400px;
+  height: 400px;
+  flex-shrink: 0; /* Prevent it from shrinking */
+}
+
+.tax-info h3 {
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.tax-info p {
+  font-size: 20px;
+  text-align: center; 
+  width: 100%; /* Make the text take full width */
+  margin-bottom: auto; /* Allow it to push the next element down */
+}
+
+
+.tax-info h4 {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center; /* Center the Net Income */
+  padding: 15px;
+  margin-top: auto; /* Push it to the bottom */
+}
+#fed_income_tax {
+  font-size: 1em;
+  color: #ff0000;
+}
+#social_security_tax {
+  font-size: 1em;
+  color: #ff0000;
+}
+#medicare_tax {
+  font-size: 1em;
+  color: #ff0000;
+}
+
+
+#state_income_tax {
+  font-size: 1em;
+  color: #ff0000;
+}
+
+#net_income_value {
+  font-size: 1.3em;
+  color: #2e7d32; /* Green color */
+  font-weight: bold;
+}
+
+
+.tax-oat {
+  display: flex;               /* Flexbox layout to align image and text horizontally */
+  align-items: flex-start;     /* Align items at the top of the container */
+  background-color: #f9f0e5;   /* Beige background color */
+  padding: 10px;               /* Padding inside the border */
+  border-radius: 8px;          /* Optional: Slight rounding of border corners */
+  width: 100%;                 /* Make sure the border spans the full width */
+  box-sizing: border-box;      /* Include padding in the element's total width */
+  margin-bottom: 20px;         /* Space below the container */
+}
+
+.oat-tax-specs {
+  width: 200px;
+  height: auto;
+  margin-right: 15px;          /* Space between the image and the text container */
+}
+
+.ps {
+  font-size: 10px;
+}
+
+
+
+
+
+
+

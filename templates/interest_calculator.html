@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interest Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/interest_calculator.css') }}">
+</head>
+<body>
+
+    <div class="total-balance-container">
+        <div class="total-balance">
+            <h2>Total Balance: <span id="balance-amount">$</span></h2>
+        </div>
+    </div>
+
+    <div class="investment-container">
+        <div class="investment-information">
+            <h3>Investment Information</h3>
+
+            <div class="form-group">
+                <label for="starting_balance">Starting Balance</label>
+                <input type="number" id="starting_balance" name="starting_balance" placeholder="$5,000" />
+            </div>
+
+            <div class="form-group">
+                <label for="contribution_amount">Contribution (Per Year)</label>
+                <input type="number" id="contribution_amount" name="contribution_amount" placeholder="$100" />
+            </div>
+
+            <div class="form-group">
+                <label for="time_to_grow">Time to Grow (Years)</label>
+                <input type="number" id="time_to_grow" name="time_to_grow" placeholder="5" max="1000" step="1"/>
+            </div>
+
+            <div class="form-group">
+                <label for="interest_rate">Annual Interest Rate</label>
+                <input type="number" id="interest_rate" name="interest_rate" placeholder="5%" />
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <canvas id="investmentChart"></canvas>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="{{ url_for('static', filename='js/interest_calculator.js') }}"></script>
+        </div>
+    </div>
+
+    <div class="accountant-oat">
+        <img src="{{ url_for('static', filename='images/donut.jpg') }}" id="accountant-oat-image" class="oat-accountant-specs" alt="Oat Explanation">
+        <div class="text-content">
+            <h3><b>Accountant Oat's Friendly Advice:</b> Use this graph to learn the powers of compounding interest!</h3>
+            <br/>
+            <p> I use the power of compounding interest to fuel my financial growth! By the age of 1, I was able to open 3 bakeries across the Santa Barbara area... and I get free donuts every day because of them! </p>
+            <br/>
+            <p>
+                I also have my own personal chef, chauffeur, and tennis ball tosser. If you want to be like me, start investing!
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

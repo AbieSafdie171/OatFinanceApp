@@ -1,0 +1,82 @@
+.oat-details {
+    position: relative;
+    top: 30px;
+    background-color: #f9f0e5;
+    padding: 20px;
+    border-radius: 8px;
+    flex-grow: 1;
+    max-width: 1050px;
+    margin: 0 auto;
+    margin-bottom: 150px;
+}
+
+.oat-details h3 {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.oat-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.oat-banana-specs {
+    margin-left: 30px;
+    height: 300px;
+    width: auto;
+    flex-shrink: 0;
+}
+
+.oat-description p {
+    flex-grow: 1;
+    margin-bottom: 20px; /* Add space between paragraphs */
+}
+
+
+.oat-roles {
+    display: flex; /* Enable flexbox layout */
+    flex-wrap: wrap; /* Allow wrapping to the next line when needed */
+    gap: 10px; /* Space between list items */
+    padding: 0; /* Remove default padding */
+    list-style: none; /* Remove default list styling */
+    margin-bottom: 50px;
+}
+
+.oat-roles li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-left: 150px;
+}
+
+.role-name {
+    margin-right: 30px;
+}
+.role-name-ice {
+    margin-right: 38px;
+}
+.role-name-baker {
+    margin-right: 80px;
+}
+.role-name-tennis {
+    margin-right: 20px;
+}
+.role-name-window {
+    margin-right: -11px;
+}
+
+.role-icon {
+    height: 240px;
+    width: 180px;
+    margin-right: 100px;
+}
+.oat-corn-specs {
+    margin-left: 30px;
+    height: 300px;
+    width: auto;
+    flex-shrink: 0;
+}

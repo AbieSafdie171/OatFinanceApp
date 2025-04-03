@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block extra_stylesheets %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block title %}Net Worth Dashboard{% endblock %}
+
+{% block content %}
+
+    <div class="net-worth-container">
+        <div class="net-worth-details">
+            <h3>Net Worth: $</h3>
+            <br/>
+            <p>- % D/D</p>
+            <p>- % W/W</p>
+            <p>- % M/M</p>
+            <p>- % Y/Y</p>
+            <p>- % All-Time</p>
+        </div>
+
+        <div class="net-worth-chart-section">
+            <canvas id="moneyChart"></canvas>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="{{ url_for('static', filename='js/net_worth_chart.js') }}"></script>
+        </div>
+    </div>
+
+    <div class="net_worth-oat">
+        <img src="{{ url_for('static', filename='images/grass_oat.jpg') }}" id="net-worth-oat-image" class="oat-net-worth-specs" alt="Net Worth Oat">
+        <div class="text-content">
+            <h3><b>Billionaire Oat's Friendly Advice:</b> Don't spend too much time obsessing over this graph! Money changes over time!</h3>
+            <br/>
+            <p>My personal finance journey was one defined by ups and downs. It wasn't until I was adopted by my mom that I was able to begin making my millions. I owe my mom everything. Mainly because she married my rich step-dad, and he's the one who has bankrolled all my business ventures. Thanks for marrying rich, mom!</p>
+            <br/>
+            <p>x</p>
+        </div>
+    </div>
+{% endblock %}

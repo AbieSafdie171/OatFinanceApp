@@ -1,0 +1,54 @@
+.net-worth-details {
+  margin-top: 50px;
+  background-color: #f9f0e5;
+  padding: 20px;
+  width: 500px;
+  height: 400px;
+  border-radius: 8px;
+}
+
+.net-worth-details h3 {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.net-worth-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  height: 100%;
+}
+
+.net-worth-chart-section {
+  flex-grow: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+}
+
+/* Make sure the chart canvas takes the remaining available space */
+.net-worth-chart-section canvas {
+  flex-grow: 1; /* This ensures the chart fills the remaining space */
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.net_worth-oat {
+  display: flex;               /* Flexbox layout to align image and text horizontally */
+  align-items: flex-start;     /* Align items at the top of the container */
+  background-color: #f9f0e5;   /* Beige background color */
+  padding: 10px;               /* Padding inside the border */
+  border-radius: 8px;          /* Optional: Slight rounding of border corners */
+  width: 100%;                 /* Make sure the border spans the full width */
+  box-sizing: border-box;      /* Include padding in the element's total width */
+  margin-bottom: 20px;         /* Space below the container */
+}
+
+.oat-net-worth-specs {
+  width: 200px;
+  height: auto;
+  margin-right: 15px;          /* Space between the image and the text container */
+}
