@@ -1,0 +1,20 @@
+.budget-oat {
+  display: flex;               /* Flexbox layout to align image and text horizontally */
+  align-items: flex-start;     /* Align items at the top of the container */
+  background-color: #f9f0e5;   /* Beige background color */
+  padding: 10px;               /* Padding inside the border */
+  border-radius: 8px;          /* Optional: Slight rounding of border corners */
+  width: 100%;                 /* Make sure the border spans the full width */
+  box-sizing: border-box;      /* Include padding in the element's total width */
+  margin-bottom: 20px;         /* Space below the container */
+}
+
+.oat-budget-specs {
+  width: 200px;
+  height: auto;
+  margin-right: 15px;          /* Space between the image and the text container */
+}
+
+.ps {
+  font-size: 10px;
+}

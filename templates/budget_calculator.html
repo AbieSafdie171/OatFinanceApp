@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block extra_stylesheets %}
-{#    <link rel="stylesheet" href="{{ url_for('static', filename='css/property.css') }}">#}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/budget.css') }}">
 {% endblock %}
 
 {% block title %}Budget Calculator{% endblock %}
@@ -9,5 +9,25 @@
 {% block content %}
 
     <h1>coming soon</h1>
+
+    <div class="budget-oat">
+    <img src="{{ url_for('static', filename='images/happy.png') }}" id="budget-oat-image" class="oat-budget-specs" alt="investment Oat Explanation">
+        <div class="text-content">
+            <h3><b>Frugal Oat's Friendly Advice:</b> A dollar saved is a dollar earned! </h3>
+            <br/>
+            <p>	Of course money does not buy happiness... it buys tennis balls, which buys happiness!! :) </p>
+            <p>
+                Now, although happiness and enjoying life is really important, you also need to remember to save!
+                You're just one deflated tennis ball or punctured vape toy away from a disaster... trust me, I learned the hard way.
+                You also never know when the insurance on your porsche might go up because your dog jumped between the pedals to chase a ball causing you to crash...
+            </p>
+            <p>
+                So, the most important thing you can do is to save a part of your child support checks for rainy days! You'll thank yourself so much for it!
+            </p>
+            <p class="ps">
+            *Just kidding, ignore all of this advice. There are literally no rainy days in Santa Barbara ever... go splurge on that lemon-lime vape flavor!
+        </p>
+        </div>
+    </div>
 
 {% endblock %}
