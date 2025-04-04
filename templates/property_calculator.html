@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block extra_stylesheets %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/property.css') }}">
+{% endblock %}
+
+{% block title %}Property Calculator{% endblock %}
+
+{% block content %}
+<div class="property-details">
+    <h3>Properties</h3>
+    <button id="addPropertyButton" class="add-property-button">Add Property</button>
+
+    <!-- Add Modal -->
+    <div id="propertyModal" class="modal">
+        <div class="modal-content">
+            <h2>Add New Property<span class="close">&times;</span></h2>
+            <form id="propertyForm">
+                <label class="property-label" for="location">Location/Address</label>
+                <input class="property-input" type="text" id="location" name="location" required>
+                <br/>
+
+                <label class="property-label" for="revenue">Revenue (Per Month)</label>
+                <input class="property-input" type="number" id="revenue" name="revenue" required>
+                <br/>
+
+                <label class="property-label" for="expenses">Operating Costs (Per Month)</label>
+                <input class="property-input" type="number" id="expenses" name="expenses" required>
+                <br/>
+
+                <button type="submit">Add Property</button>
+            </form>
+        </div>
+    </div>
+
+{#    <!-- Edit Modal -->#}
+{#    <div id="editPropertyModal" class="modal">#}
+{#        <div class="modal-content">#}
+{#            <h2>Edit Property<span class="close">&times;</span></h2>#}
+{#            <form id="editPropertyForm">#}
+{#                <label class="property-label" for="location">Location/Address</label>#}
+{#                <input class="property-input" type="text" id="edit-location" name="location" required>#}
+{#                <br/>#}
+{##}
+{#                <label class="property-label" for="revenue">Revenue (Per Month)</label>#}
+{#                <input class="property-input" type="number" id="edit-revenue" name="revenue" required>#}
+{#                <br/>#}
+{##}
+{#                <label class="property-label" for="expenses">Operating Costs (Per Month)</label>#}
+{#                <input class="property-input" type="number" id="edit-expenses" name="expenses" required>#}
+{#                <br/>#}
+{##}
+{#                <button type="submit">Save Property</button>#}
+{#            </form>#}
+{#        </div>#}
+{#    </div>#}
+
+    <!-- Property Table -->
+    <table id="propertyTable" class="property-table">
+        <thead>
+            <tr>
+                <th>Location/Address</th>
+                <th>Revenue</th>
+                <th>Operating Costs</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set total_profit = 0 %}
+            {% for property in properties %}
+            <tr>
+                <td>{{ property.property_address }}</td>
+                <td>${{ "%.2f"|format(property.revenue) }}</td>
+                <td>${{ "%.2f"|format(property.operating_costs) }}</td>
+                <td>
+{#                    <button class="edit-btn">Edit</button>#}
+                    <button class="delete-btn" data-id="{{ property.id }}">Delete</button>
+                </td>
+                {% set total_profit = total_profit + (property.revenue - property.operating_costs) %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h4>Total Profit (Per Month): <span id="total_profit_value">${{ "%.2f"|format(total_profit) }}</span></h4>
+</div>
+
+<div class="property-oat">
+    <img src="{{ url_for('static', filename='images/work.jpg') }}" id="property-oat-image" class="oat-property-specs" alt="Oat Explanation">
+    <div class="text-content">
+        <h3><b>Property Mogul Oat's Friendly Advice:</b> Make your dreams of being a landlord a reality! </h3>
+        <br/>
+        <p>I own countless properties across California that generate a significant passive income stream. In fact, I make so much money from them that I get to hang out in my dog bed all day at my mom's work! And if she's not giving me enough attention, I'll play with my best friend Malka and my favorite tennis balls! And although I'm a master negotiator and businessdog, don't be deterred, you can live this lifestyle too! Happy property hunting!*</p>
+        <br/>
+        <p class="ps">
+            *But don't you dare step on my turf, all of Southern California is mine...
+        </p>
+    </div>
+</div>
+{% endblock %}
+{% block extra_scripts %}
+    <script src="{{ url_for('static', filename='js/property.js') }}"></script>
+{% endblock %}
+

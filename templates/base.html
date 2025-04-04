@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{#    <meta name="csrf-token" content="{{ csrf_token() }}">#}
     <title>{% block title %}Finance Portfolio{% endblock %}</title>
 
     <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
@@ -29,13 +30,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a href="{{ url_for('savings_investments') }}" class="nav-link">Savings and Investments</a>
-                    </li>
-                    <li class="nav-item">
                         <a href="{{ url_for('budget_calculator') }}" class="nav-link">Budget Calculator</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url_for('property_management') }}" class="nav-link">Property Management</a>
+                        <a href="{{ url_for('property_calculator') }}" class="nav-link">Property Calculator</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('investments_calculator') }}" class="nav-link">Investments Calculator</a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ url_for('tax_calculator') }}" class="nav-link">Tax Calculator</a>
@@ -55,6 +56,6 @@
     <div class="container mt-4">
         {% block content %}{% endblock %}
     </div>
-
+    {% block extra_scripts %}{% endblock %}
 </body>
 </html>

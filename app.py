@@ -1,22 +1,25 @@
 from flask import Flask, render_template
+from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
+csrf = CSRFProtect(app)
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
-@app.route('/savings_investments')
-def savings_investments():
-    return render_template('savings_investments.html')
+@app.route('/investments_calculator')
+def investments_calculator():
+    return render_template('investments_calculator.html')
 
 @app.route('/budget_calculator')
 def budget_calculator():
     return render_template('budget_calculator.html')
 
-@app.route('/property_management')
-def property_management():
-    return render_template('property_management.html')
+@app.route('/property_calculator')
+@csrf.exempt
+def property_calculator():
+    return render_template('property_calculator.html')
 
 @app.route('/tax_calculator')
 def tax_calculator():

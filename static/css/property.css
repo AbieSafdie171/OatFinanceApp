@@ -149,20 +149,20 @@ form button:hover {
     background-color: #218838;
 }
 
-.edit-btn{
-    background-color: #f1f1f1; /* Light gray background */
-    color: #333; /* Darker gray for the plus sign */
-    border: 2px solid #333;;
-    border-radius: 5px; /* Square button with slightly rounded corners */
-    width: 50px;
-    height: 30px;
-    font-size: 12px; /* Size of the plus sign */
-    font-weight: bold;
-    cursor: pointer;
-    margin-right: 10px;
-    align-items: center;
-    justify-content: center;
-}
+/*.edit-btn{*/
+/*    background-color: #f1f1f1; !* Light gray background *!*/
+/*    color: #333; !* Darker gray for the plus sign *!*/
+/*    border: 2px solid #333;;*/
+/*    border-radius: 5px; !* Square button with slightly rounded corners *!*/
+/*    width: 50px;*/
+/*    height: 30px;*/
+/*    font-size: 12px; !* Size of the plus sign *!*/
+/*    font-weight: bold;*/
+/*    cursor: pointer;*/
+/*    margin-right: 10px;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*}*/
 
 .delete-btn{
     background-color: #f1f1f1; /* Light gray background */
@@ -179,9 +179,9 @@ form button:hover {
     justify-content: center;
 }
 
-.edit-btn:hover {
-    background-color: #bbb; /* Darken the background on hover */
-}
+/*.edit-btn:hover {*/
+/*    background-color: #bbb; !* Darken the background on hover *!*/
+/*}*/
 
 .delete-btn:hover {
     background-color: #bbb; /* Darken the background on hover */

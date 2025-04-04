@@ -38,7 +38,7 @@ moneyChart = new Chart(ctx, {
 });
 }
 
-document.addEventListener('turbo:load', function() {
+document.addEventListener('DOMContentLoaded', () => {
 if (window.location.pathname === '/') {
   createChart(); // Call the function to create or update the chart
 }
