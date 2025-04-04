@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="2ce9970d-52ad-44d8-9d70-619fc7c2a42e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/property.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/property.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/net_worth_chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/net_worth_chart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/interest_calculator.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/interest_calculator.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/investments_calculator.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/investments_calculator.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/tax_calculator.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/tax_calculator.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +34,10 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "/Users/abie/cs/projects/finance_tracker",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -67,7 +74,8 @@
       <option name="presentableId" value="Default" />
       <updated>1743708592487</updated>
       <workItem from="1743708593750" duration="23000" />
-      <workItem from="1743708621626" duration="9588000" />
+      <workItem from="1743708621626" duration="10182000" />
+      <workItem from="1743742337148" duration="1242000" />
     </task>
     <servers />
   </component>

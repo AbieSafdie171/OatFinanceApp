@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block extra_stylesheets %}
-{#    <link rel="stylesheet" href="{{ url_for('static', filename='css/property.css') }}">#}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/investments.css') }}">
 {% endblock %}
 
 {% block title %}Investments Calculator{% endblock %}
@@ -9,5 +9,19 @@
 {% block content %}
 
     <h1>coming soon</h1>
+
+    <div class="investment-oat">
+    <img src="{{ url_for('static', filename='images/sitting_sunset.png') }}" id="investment-oat-image" class="oat-investment-specs" alt="investment Oat Explanation">
+  <div class="text-content">
+    <h3><b>Capitalist Oat's Friendly Advice:</b> Make your money work for you!</h3>
+    <br/>
+    <p>	I constantly weigh my financial options to make sure I'm putting my money where it'll grow the most! </p>
+    <br/>
+    <p>
+    	Because when you do that, you can swim in a pool of tennis balls all day and still be making money to buy more! What a life!
+    </p>
+    <br/>
+  </div>
+</div>
 
 {% endblock %}
