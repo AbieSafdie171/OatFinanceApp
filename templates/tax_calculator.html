@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block extra_stylesheets %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tax_calculator.css') }}">
+{% endblock %}
+
+{% block title %}Tax Calculator{% endblock %}
+
+{% block content %}
+
+<div class="tax-container">
+	<div class="tax-details">
+	    <h3>Tax Details</h3>
+	        <div class="tax-form-group">
+	            <label for="starting_balance">Income</label>
+	            <input type="number" id="income" name="income" placeholder="$45,000" />
+	        </div>
+
+			<div class="tax-form-group">
+				<label for="state">Residence</label>
+			    <select id="state" name="state">
+			        <option value="California">California</option>
+			    </select>
+			</div>
+	</div>
+
+	<div class="tax-chart-section">
+		<h3>Tax Pie Chart</h3>
+	    <canvas id="taxChart"></canvas>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="{{ url_for('static', filename='js/tax_calculator.js') }}"></script>
+	</div>
+
+	<div class="tax-info">
+
+		<h3>Where are your taxes going?</h3>
+
+		<p>
+			Federal Income Tax: <span id="fed_income_tax"></span>
+			<br/>
+			Social Security: <span id="social_security_tax"></span>
+			<br/>
+			Medicare: <span id="medicare_tax"></span>
+			<br/>
+			State Income Tax: <span id="state_income_tax"></span>
+		</p>
+
+		<h4>Your Net Income: <span id="net_income_value"></span>  </h4>
+		<br/>
+		<p class="percent_id"><span id="tax_percent"></span>% of your gross income went to tax</p>
+
+
+	</div>
+</div>
+
+<div class="tax-oat">
+    <img src="{{ url_for('static', filename='images/snowtala.jpg') }}" id="tax-oat-image" class="oat-tax-specs" alt="tax Oat Explanation">
+  <div class="text-content">
+    <h3><b>Tax Dodger Oat's Friendly Advice:</b> Don't try and dodge taxes unless you're as cute as me... it won't end well for you...</h3>
+    <br/>
+    <p>	It might be demoralizing seeing all of your money go to the government, but just remember, with the new bill congress passed, your tax dollars are buying me all kinds of toys!</p>
+    <br/>
+    <p>
+    	And I know California seems like a tax-heavy state, but remember, I live here! So if you want to be with a literal ray of sunshine and happiness, you'd better move out here!
+    </p>
+    <br/>
+    <p class="ps">
+    	*Personal Income Taxes can be complex so this is an oversimplified calculator
+    </p>
+  </div>
+</div>
+{% endblock %}

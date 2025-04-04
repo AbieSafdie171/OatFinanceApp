@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block extra_stylesheets %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/oatie.css') }}">
+{% endblock %}
+
+{% block title %}About Oat{% endblock %}
+
+{% block content %}
+
+<div class="oat-details">
+    <h3>About Oat</h3>
+
+    <div class="oat-content">
+        <img src="{{ url_for('static', filename='images/baby_oatie_banana.jpg') }}" id="banana-oat-image" class="oat-banana-specs" alt="Banana Oat">
+        <div class="oat-description">
+            <p>
+                Oatie "Oat" Kaplow was born July 5, 2023 in Eugene, Oregon. She had a tumultuous upbringing until her step-father, Abie Safdie, came into her life. From then on, it's been sunshine and rainbows. So much so that Oat has been defined as perfection in living form. Everyone around the world yearns to just grab a glimpse of the famous Oat.
+            </p>
+            <p>
+                Oatie is a recent graduate of the University of Oregon, but has since moved to Santa Barbara, California where she serves as the President of Santa Barbara Hillel. Oatie -- and her co-president Malka -- direct a staff of 4 in providing support to Jewish students at the University of California, Santa Barbara.
+            </p>
+            <p>
+                On top of being President of Hillel, Oatie is:
+            </p>
+        </div>
+    </div>
+
+    <!-- Separate roles list outside of the flexbox content -->
+    <div class="roles">
+        <ul class="oat-roles">
+            <li>
+                <span class="role-name">- An Airline Pilot</span>
+{#                <%= image_tag 'pilot.jpg', class: 'role-icon', alt: 'Airline Pilot Image' %>#}
+                <img src="{{ url_for('static', filename='images/pilot.jpg') }}" id="pilot-oat-image" class="role-icon" alt="Pilot Oat">
+                <span class="role-name">- A Fashion Icon</span>
+                <img src="{{ url_for('static', filename='images/fashion.jpg') }}" id="fashion-oat-image" class="role-icon" alt="Fashion Oat">
+            </li>
+            <li>
+            	<span class="role-name-ice">- An Ice Queen</span>
+                <img src="{{ url_for('static', filename='images/ice_queen.jpg') }}" id="ice-oat-image" class="role-icon" alt="Ice Queen Oat">
+            	<span class="role-name-baker">- A Baker</span>
+                <img src="{{ url_for('static', filename='images/baker.jpg') }}" id="baker-oat-image" class="role-icon" alt="Baker Oat">
+            </li>
+            <li>
+            	<span class="role-name-tennis">- A Tennis Ball Chaser</span>
+                <img src="{{ url_for('static', filename='images/tennis-ball.jpg') }}" id="tennis-oat-image" class="role-icon" alt="Tennis Oat">
+                <span class="role-name-window">- A Window-Time Enthusiast </span>
+                <img src="{{ url_for('static', filename='images/window_time.jpg') }}" id="window-oat-image" class="role-icon" alt="Window Oat">
+            </li>
+        </ul>
+    </div>
+
+    <div class="oat-content">
+        <img src="{{ url_for('static', filename='images/corn.jpg') }}" id="corn-oat-image" class="oat-corn-specs" alt="Corn Oat">
+        <div class="oat-description">
+            <p>
+                And many, many more! Oatie's hobbies and occupations are boundless and only time will tell if anything is not within her reach.
+            </p>
+            <p>
+                Oatie's mom, Sasha Kaplow, is a star in her own right, but many credit Oat's meteoric rise to her step-father, Abie Safdie. At their shared time at the U of O, they developed an inseparable bond that will last a lifetime. There are rumors that there is a custody battle taking place currently, as Abie is seeking full custody of Oat so she can continue to reach her full potential. But that will be left to the jury...
+            </p>
+            <p>
+            	Ultimately, Oat loves her new life in Southern California and can't wait to keep showing the world what she accomplishes!
+            </p>
+    	</div>
+    </div>
+</div>
+{% endblock %}
