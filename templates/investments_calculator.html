@@ -8,20 +8,44 @@
 
 {% block content %}
 
-    <h1>coming soon</h1>
+    <div class="oat-top">
+    <script src="{{ url_for('static', filename='js/investments_calculator.js') }}"></script>
+      <div class="text-content-top">
+        <h3><b>Investments Calculator</b></h3>
+            <form class="investment-input-row">
+              <div class="form-item">
+                <label for="money">Amount</label>
+                <input type="number" id="money" name="money" placeholder="$1000" required>
+              </div>
+
+            <div class="form-item">
+                <label for="return">Yearly Interest Rate</label>
+                <input type="number" id="return" name="return" placeholder="5%" step="0.01" required>
+              </div>
+
+              <div class="form-item">
+                <label for="time">Years</label>
+                <input type="number" id="time" name="time" placeholder="1" required>
+              </div>
+            </form>
+
+        <h4><b>Return: </b><span id="return-value"></span></h4>
+        <h4><b>Net Return: </b><span id="net-return-value"></span></h4>
+      </div>
+    </div>
 
     <div class="investment-oat">
-    <img src="{{ url_for('static', filename='images/sitting_sunset.png') }}" id="investment-oat-image" class="oat-investment-specs" alt="investment Oat Explanation">
-  <div class="text-content">
-    <h3><b>Capitalist Oat's Friendly Advice:</b> Make your money work for you!</h3>
-    <br/>
-    <p>	I constantly weigh my financial options to make sure I'm putting my money where it'll grow the most! </p>
-    <br/>
-    <p>
-    	Because when you do that, you can swim in a pool of tennis balls all day and still be making money to buy more! What a life!
-    </p>
-    <br/>
-  </div>
-</div>
+        <img src="{{ url_for('static', filename='images/sitting_sunset.png') }}" id="investment-oat-image" class="oat-investment-specs" alt="investment Oat Explanation">
+      <div class="text-content">
+            <h3><b>Capitalist Oat's Friendly Advice:</b> Make your money work for you!</h3>
+            <br/>
+            <p>	I constantly weigh my financial options to make sure I'm putting my money where it'll grow the most! </p>
+            <br/>
+            <p>
+            	Because when you do that, you can swim in a pool of tennis balls all day and still be making money to buy more! What a life!
+            </p>
+            <br/>
+      </div>
+    </div>
 
 {% endblock %}

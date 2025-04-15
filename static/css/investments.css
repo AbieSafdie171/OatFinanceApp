@@ -9,6 +9,18 @@
   margin-bottom: 20px;         /* Space below the container */
 }
 
+.oat-top {
+  display: flex;               /* Flexbox layout to align image and text horizontally */
+  align-items: flex-start;     /* Align items at the top of the container */
+  background-color: #f9f0e5;   /* Beige background color */
+  padding: 10px;               /* Padding inside the border */
+  border-radius: 8px;          /* Optional: Slight rounding of border corners */
+  width: 100%;                 /* Make sure the border spans the full width */
+  height: 300px;
+  box-sizing: border-box;      /* Include padding in the element's total width */
+  margin-bottom: 20px;         /* Space below the container */
+}
+
 .oat-investment-specs {
   width: 200px;
   height: auto;
@@ -18,3 +30,55 @@
 .ps {
   font-size: 10px;
 }
+
+.text-content-top {
+  height: 100%;              /* ensure full height to center vertically */
+  width: 100%;
+}
+
+.text-content-top h3 {
+  text-align: center;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.text-content-top h4 {
+  text-align: center;
+  width: 100%;
+  font-size: 24px;
+}
+
+
+.investment-input-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  gap: 50px;
+}
+
+.form-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-item label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.form-item input {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 120px;
+  text-align: center;
+}
+
+
