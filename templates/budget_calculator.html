@@ -8,7 +8,93 @@
 
 {% block content %}
 
-    <h1>coming soon</h1>
+    <div class="budget-div">
+
+        <div class="text-content-top">
+            <h3><b>April 2025</b></h3>
+            <button class="add-expense-btn">+ Add Expense</button>
+        </div>
+
+        <div class="budget-table">
+            <div class="category housing">
+                <h4>Housing</h4>
+                <table>
+                  <tr><td>Rent</td><td>$726.99</td></tr>
+                  <tr><th>Total</th><th>$726.99</th></tr>
+                  <tr><td>Percent</td><td>59.66%</td></tr>
+                </table>
+            </div>
+
+            <div class="category drinks">
+                <h4>Drinks</h4>
+                <table>
+                  <tr><td>Drinks</td><td>$0</td></tr>
+                  <tr><th>Total</th><th>$0</th></tr>
+                  <tr><td>Percent</td><td>0%</td></tr>
+                </table>
+            </div>
+
+            <div class="category clothing">
+                <h4>Clothing</h4>
+                <table>
+                  <tr><td>Clothing</td><td>$0</td></tr>
+                  <tr><th>Total</th><th>$0</th></tr>
+                  <tr><td>Percent</td><td>0%</td></tr>
+                </table>
+            </div>
+
+            <div class="category subscriptions">
+                <h4>Subscriptions</h4>
+                <table>
+                  <tr><td>Subscriptions</td><td>$0</td></tr>
+                  <tr><th>Total</th><th>$0</th></tr>
+                  <tr><td>Percent</td><td>0%</td></tr>
+                </table>
+            </div>
+
+            <div class="category food">
+                <h4>Food</h4>
+                <table>
+                  <tr><td>Groceries</td><td>$208.61</td></tr>
+                  <tr><td>Out</td><td>$52.53</td></tr>
+                  <tr><th>Total</th><th>$261.14</th></tr>
+                  <tr><td>Percent</td><td>21.43%</td></tr>
+                </table>
+            </div>
+
+            <div class="category laundry">
+                <h4>Laundry</h4>
+                <table>
+                  <tr><td>Laundry</td><td>$0</td></tr>
+                  <tr><th>Total</th><th>$0</th></tr>
+                  <tr><td>Percent</td><td>0%</td></tr>
+                </table>
+            </div>
+
+            <div class="category transportation">
+                <h4>Transportation</h4>
+                <table>
+                  <tr><td>Car Insurance</td><td>$208.61</td></tr>
+                  <tr><td>Gas</td><td>$52.53</td></tr>
+                  <tr><td>Public</td><td>$261.14</td></tr>
+                  <tr><th>Total</th><th>$261.14</th></tr>
+                  <tr><td>Percent</td><td>21.43%</td></tr>
+                </table>
+            </div>
+
+            <div class="category other">
+                <h4>Other</h4>
+                <table>
+                  <tr><td>Other</td><td>$208.61</td></tr>
+                  <tr><th>Total</th><th>$261.14</th></tr>
+                  <tr><td>Percent</td><td>21.43%</td></tr>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
 
     <div class="budget-oat">
     <img src="{{ url_for('static', filename='images/happy.png') }}" id="budget-oat-image" class="oat-budget-specs" alt="investment Oat Explanation">

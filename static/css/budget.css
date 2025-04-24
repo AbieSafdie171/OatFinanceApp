@@ -1,3 +1,122 @@
+/*------------------------------------------------------------*/
+/*BUDGET DIV */
+
+
+.budget-div {
+  background-color: #f9f0e5;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center everything horizontally */
+}
+
+/*------------------------------------------------------------*/
+/*MONTH LABEL*/
+
+.text-content-top {
+  width: 100%;
+}
+
+.text-content-top h3 {
+  text-align: center;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.text-content-top h4 {
+  text-align: center;
+  width: 100%;
+  font-size: 24px;
+}
+
+/*EXPENSE BUTTON*/
+
+.add-expense-btn {
+  display: flex;
+  float: right; /* Align the button to the right */
+  padding: 10px 10px;
+  background-color: #d1feb8;
+  width: auto;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-items: center;
+  justify-content: center;
+  margin-top: -55px;
+}
+
+.add-expense-btn:hover {
+  background-color: #7da384;
+}
+
+
+/*------------------------------------------------------------*/
+
+/*BUDGET TABLE*/
+
+.budget-table {
+  margin-top: 20px; /* spacing between title and grid */
+  margin-left: 12%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; 
+
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.category {
+  background-color: #90b494;
+  border-radius: 12px;
+  padding: 1rem;
+  color: #000;    /* Text Color*/
+  width: 200px;
+  box-sizing: border-box;
+}
+
+
+.category h4 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td, th {
+  padding: 0.4rem;
+  text-align: left;
+}
+
+.housing { background-color: #90b494; }       /* green */
+.food { background-color: #dba5a5; }          /* pinkish */  
+.drinks { background-color: #f5ebc9; color: #000; }
+.clothing { background-color: #d5c6e0; color: #000; }
+.subscriptions { background-color: #FAC898; }
+.laundry { background-color: #e7bcd5; }
+.transportation { background-color: #cce1f0; color: #000; }
+.other { background-color: #c65f5f; }
+
+th {
+  font-weight: bold;
+}
+
+/*------------------------------------------------------------*/
+/*OAT FRIENDLY TIP*/
+
 .budget-oat {
   display: flex;               /* Flexbox layout to align image and text horizontally */
   align-items: flex-start;     /* Align items at the top of the container */
@@ -18,3 +137,9 @@
 .ps {
   font-size: 10px;
 }
+
+
+
+
+
+
