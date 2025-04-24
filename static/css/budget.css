@@ -116,7 +116,7 @@ th {
   float: right; /* Align the button to the right */
   padding: 10px 10px;
   background-color: #8dbee1;
-  width: auto;
+  width: 125px;
   color: black;
   border: none;
   border-radius: 8px;
@@ -133,6 +133,30 @@ th {
   background-color: #8d8ee1;
 }
 
+/*LEDGER BUTTON*/
+
+.ledger-btn {
+  display: flex;
+  float: right; /* Align the button to the right */
+  padding: 10px 10px;
+  background-color: #8dbee1;
+  width: 125px;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-items: center;
+  justify-content: center;
+  margin-top: -55px;
+  margin-right: 135px;
+}
+
+.ledger-btn:hover {
+  background-color: #8d8ee1;
+}
 
 /*------------------------------------------------------------*/
 
