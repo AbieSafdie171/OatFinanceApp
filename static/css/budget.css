@@ -15,6 +15,86 @@
 }
 
 /*------------------------------------------------------------*/
+/*EXPENSES DIV */
+
+
+.expenses-div {
+  background-color: #f9f0e5;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center everything horizontally */
+}
+
+/*------------------------------------------------------------*/
+
+/*EXPENSES TABLE*/
+
+.expenses-table {
+  margin-top: 20px; /* spacing between title and grid */
+  margin-left: 0%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; 
+
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.expense-category {
+  background-color: #90b494;
+  border-radius: 12px;
+  padding: 1rem;
+  color: #000;    /* Text Color*/
+  width: 440px;
+  box-sizing: border-box;
+}
+
+
+.expense-category h4 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td, th {
+  padding: 0.4rem;
+  text-align: left;
+}
+
+.income { background-color: #C1E1C1; }   
+.expenses { background-color: #ff9690; }          /* pinkish */  
+
+th {
+  font-weight: bold;
+}
+
+
+.two-column-table {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.two-column-table table {
+  border-collapse: collapse;
+}
+
+.two-column-table td, .two-column-table th {
+  padding: 6px 12px;
+  text-align: left;
+}
+
+/*------------------------------------------------------------*/
 /*MONTH LABEL*/
 
 .text-content-top {
@@ -29,19 +109,13 @@
   font-size: 24px;
 }
 
-.text-content-top h4 {
-  text-align: center;
-  width: 100%;
-  font-size: 24px;
-}
-
 /*EXPENSE BUTTON*/
 
 .add-expense-btn {
   display: flex;
   float: right; /* Align the button to the right */
   padding: 10px 10px;
-  background-color: #d1feb8;
+  background-color: #8dbee1;
   width: auto;
   color: black;
   border: none;
@@ -56,7 +130,7 @@
 }
 
 .add-expense-btn:hover {
-  background-color: #7da384;
+  background-color: #8d8ee1;
 }
 
 
@@ -113,6 +187,19 @@ td, th {
 th {
   font-weight: bold;
 }
+
+.text-content-bottom {
+  margin-top: 25px;
+  width: 100%;
+}
+
+.text-content-bottom  h3 {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
 
 /*------------------------------------------------------------*/
 /*OAT FRIENDLY TIP*/
