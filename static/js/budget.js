@@ -1,38 +1,65 @@
-
-
 /*------------------------------------------------------------*/
-
 // ADD EXPENSE MODAL
 
-
+// Grab modal elements
 const modal = document.getElementById("expenseModal");
-const btn = document.querySelector(".add-expense-btn");
-const span = document.querySelector(".close");
+const openModalBtn = document.querySelector(".add-expense-btn");
+const closeModalBtn = document.querySelector(".close");
+const expenseForm = document.getElementById("expenseForm");
 
-btn.onclick = function() {
+// Open modal
+openModalBtn.addEventListener("click", () => {
   modal.style.display = "block";
-}
+});
 
-span.onclick = function() {
+// Close modal when X is clicked
+closeModalBtn.addEventListener("click", () => {
   modal.style.display = "none";
-}
+});
 
-window.onclick = function(event) {
-  if (event.target == modal) {
+// Close modal when user clicks outside the modal
+window.addEventListener("click", (event) => {
+  if (event.target === modal) {
     modal.style.display = "none";
   }
-}
+});
 
-document.getElementById("expenseForm").onsubmit = function(e) {
+// Handle form submission
+expenseForm.addEventListener("submit", function (e) {
   e.preventDefault();
-  // TODO: Handle form submission here
-  alert("Expense submitted!");
 
+  const formData = new FormData(expenseForm);
 
-  document.getElementById("expenseForm").reset();
-  modal.style.display = "none";
-  }
-
+  fetch("/add_expense", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === "success") {
+        expenseForm.reset();
+        modal.style.display = "none";
+      } else {
+        alert("There was an error submitting your expense.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("Failed to submit expense.");
+    });
+});
 /*------------------------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
 
 

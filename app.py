@@ -1,9 +1,23 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
+import mysql.connector
 from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
+
+# MySQL configuration
+def get_db_connection():
+    connection = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password='Ysmt101m?sforma!',
+        database='budget_app'
+    )
+    return connection
+
+# CSRF Protection
 csrf = CSRFProtect(app)
 
+# Routes
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -17,7 +31,7 @@ def budget_calculator():
     return render_template('budget_calculator.html')
 
 @app.route('/property_calculator')
-@csrf.exempt
+@csrf.exempt  # CSRF protection is disabled for this route
 def property_calculator():
     return render_template('property_calculator.html')
 
@@ -32,6 +46,27 @@ def interest_calculator():
 @app.route('/about_oat')
 def about_oat():
     return render_template('about_oat.html')
+
+# Route for adding an expense
+@app.route('/add_expense', methods=['POST'])
+@csrf.exempt  # CSRF protection is disabled for this route
+def add_expense():
+    category = request.form['category']
+    amount = request.form['amount']
+    date = request.form['date']
+    memo = request.form['memo']
+
+    # Get a database connection
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    query = f"INSERT INTO {category} (amount, date, memo) VALUES (%s, %s, %s)"
+    cursor.execute(query, (amount, date, memo))  # Execute the query
+    conn.commit()  # Commit changes
+    cursor.close()  # Close the cursor
+    conn.close()  # Close the connection
+
+    return jsonify({'status': 'success'})  # Return success response
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=5001)

@@ -62,10 +62,12 @@
                 </table>
             </div>
 
-            <div class="category laundry">
-                <h4>Laundry</h4>
+            <div class="category fitness">
+                <h4>Fitness</h4>
                 <table>
-                  <tr><td>Laundry</td><td>$0</td></tr>
+                  <tr><td>Activities</td><td>$0</td></tr>
+                  <tr><td>Clothing</td><td>$0</td></tr>
+                  <tr><td>Other</td><td>$0</td></tr>
                   <tr><th>Total</th><th>$0</th></tr>
                   <tr><td>Percent</td><td>0%</td></tr>
                 </table>
@@ -76,7 +78,7 @@
                 <table>
                   <tr><td>Insurance</td><td>$208.61</td></tr>
                   <tr><td>Gas</td><td>$52.53</td></tr>
-                  <tr><td>Public</td><td>$261.14</td></tr>
+                  <tr><td>Other</td><td>$261.14</td></tr>
                   <tr><th>Total</th><th>$261.14</th></tr>
                   <tr><td>Percent</td><td>21.43%</td></tr>
                 </table>
@@ -190,7 +192,10 @@
         
         <form id="expenseForm">
           <label for="amount">Amount:</label>
-          <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
+          <input type="text" id="amount" name="amount" placeholder="Enter amount" required>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
 
           <label for="category">Category:</label>
           <select id="category" name="category" required>
@@ -200,7 +205,7 @@
             <option value="drinks">Drinks</option>
             <option value="clothing">Clothing</option>
             <option value="subscriptions">Subscriptions</option>
-            <option value="laundry">Laundry</option>
+            <option value="fitness">Fitness</option>
             <option value="transportation">Transportation</option>
             <option value="other">Other</option>
           </select>
