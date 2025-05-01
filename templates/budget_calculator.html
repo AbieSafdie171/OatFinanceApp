@@ -66,9 +66,7 @@
             <div class="category fitness">
                 <h4>Fitness</h4>
                 <table>
-                  <tr><td>Activities</td><td>$0</td></tr>
-                  <tr><td>Clothing</td><td>$0</td></tr>
-                  <tr><td>Other</td><td>$0</td></tr>
+                  <tr><td>Fitness</td><td>$0</td></tr>
                   <tr><th>Total</th><th>$0</th></tr>
                   <tr><td>Percent</td><td>0%</td></tr>
                 </table>
@@ -185,39 +183,59 @@
         </div>
     </div>
 
-    <!-- Add Expense Modal -->
-    <div id="expenseModal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <h3>Add New Expense</h3>
-        
-        <form id="expenseForm">
-          <label for="amount">Amount:</label>
-          <input type="text" id="amount" name="amount" placeholder="Enter amount" required>
+<!-- Add Expense Modal -->
+<div id="expenseModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h3>Add New Expense</h3>
+    
+    <form id="expenseForm">
+      <label for="amount">Amount:</label>
+      <input type="text" id="amount" name="amount" placeholder="Enter amount" required>
 
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date" required>
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date" required>
 
-          <label for="category">Category:</label>
-          <select id="category" name="category" required>
-            <option value="">--Select Category--</option>
-            <option value="housing">Housing</option>
-            <option value="food">Food</option>
-            <option value="drinks">Drinks</option>
-            <option value="clothing">Clothing</option>
-            <option value="subscriptions">Subscriptions</option>
-            <option value="fitness">Fitness</option>
-            <option value="transportation">Transportation</option>
-            <option value="other">Other</option>
-          </select>
+      <label for="category">Category:</label>
+      <select id="category" name="category" required>
+        <option value="">--Select Category--</option>
+        <option value="housing">Housing</option>
+        <option value="food">Food</option>
+        <option value="drinks">Drinks</option>
+        <option value="clothing">Clothing</option>
+        <option value="subscriptions">Subscriptions</option>
+        <option value="fitness">Fitness</option>
+        <option value="transportation">Transportation</option>
+        <option value="other">Other</option>
+      </select>
 
-          <label for="memo">Memo:</label>
-          <textarea id="memo" name="memo" rows="4" placeholder="Enter memo..." required></textarea>
-
-          <button type="submit" class="modal-submit">Add Expense</button>
-        </form>
+      <!-- Dynamic "Type" field container (initially hidden) -->
+      <div id="typeContainerFood" style="display: none;">
+        <label for="type">Type:</label>
+        <select id="type" name="type">
+          <option value="groceries">Groceries</option>
+          <option value="out">Out</option>
+        </select>
       </div>
-    </div>
+
+      <!-- Dynamic "Type" field container (initially hidden) -->
+      <div id="typeContainerTrans" style="display: none;">
+        <label for="trans_type">Type:</label>
+        <select id="trans_type" name="trans_type">
+          <option value="insurance">Insurance</option>
+          <option value="gas">Gas</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <label for="memo">Memo:</label>
+      <textarea id="memo" name="memo" rows="4" placeholder="Enter memo..." required></textarea>
+
+      <button type="submit" class="modal-submit">Add Expense</button>
+    </form>
+  </div>
+</div>
+
 
 {% endblock %}
 

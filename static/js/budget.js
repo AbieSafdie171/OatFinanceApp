@@ -26,10 +26,9 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`/get_budget_data?month=${month}`)
             .then(response => response.json())
             .then(data => {
-
                 console.log(data);
 
-                for (const [category, amount] of Object.entries(data)) {
+                for (const [category, amounts] of Object.entries(data)) {
                     const categoryDiv = document.querySelector(`.category.${category}`);
                     if (!categoryDiv) continue;
 
@@ -37,14 +36,68 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (!table) continue;
 
                     const rows = table.querySelectorAll("tr");
-                    for (let row of rows) {
-                        const firstCellText = row.cells[0]?.textContent?.trim().toLowerCase();
-                        if (firstCellText === "total") {
-                            // Update the second <th> or <td> with the new amount
-                            if (row.cells[1]) {
-                                row.cells[1].textContent = `$${amount.toFixed(2)}`;
-                            }
-                            break;
+
+                    if (category === "food") {
+                        // For food, you need to update both Groceries and Out
+                        let groceriesTotal = amounts.groceries || 0;
+                        let outTotal = amounts.out || 0;
+
+                        // Update Groceries row
+                        const groceriesRow = rows[0];  // Assuming Groceries is the first row
+                        if (groceriesRow) {
+                            groceriesRow.cells[1].textContent = `$${groceriesTotal.toFixed(2)}`;
+                        }
+
+                        // Update Out row
+                        const outRow = rows[1];  // Assuming Out is the second row
+                        if (outRow) {
+                            outRow.cells[1].textContent = `$${outTotal.toFixed(2)}`;
+                        }
+
+                        // Update Total row
+                        const totalRow = rows[2];  // Assuming Total is the third row
+                        if (totalRow) {
+                            const total = groceriesTotal + outTotal;
+                            totalRow.cells[1].textContent = `$${total.toFixed(2)}`;
+                        }
+                    } else if (category == "transportation"){
+
+                        let insuranceTotal = amounts.insurance || 0;
+                        let gasTotal = amounts.gas || 0;
+                        let otherTotal = amounts.other || 0;
+
+                        // Update insurance row
+                        const insuranceRow = rows[0]; 
+                        if (insuranceRow) {
+                            insuranceRow.cells[1].textContent = `$${insuranceTotal.toFixed(2)}`;
+                        }
+
+                        // Update gas row
+                        const gasRow = rows[1];  // Assuming Out is the second row
+                        if (gasRow) {
+                            gasRow.cells[1].textContent = `$${gasTotal.toFixed(2)}`;
+                        }
+
+                        // Update gas row
+                        const otherRow = rows[2];  // Assuming Out is the second row
+                        if (otherRow) {
+                            otherRow.cells[1].textContent = `$${otherTotal.toFixed(2)}`;
+                        }
+
+                        // Update Total row
+                        const totalRow = rows[3];  // Assuming Total is the third row
+                        if (totalRow) {
+                            const total = insuranceTotal + gasTotal + otherTotal;
+                            totalRow.cells[1].textContent = `$${total.toFixed(2)}`;
+                        }
+                    } 
+                    else {
+                        // For other categories, update the total as before
+                        const baseRow = rows[0];  // Assuming Total is the second row
+                        const totalRow = rows[1];  // Assuming Total is the second row
+                        if (totalRow) {
+                            totalRow.cells[1].textContent = `$${amounts.toFixed(2)}`;
+                            baseRow.cells[1].textContent = `$${amounts.toFixed(2)}`;
                         }
                     }
                 }
@@ -53,6 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error("Failed to load budget data:", error);
             });
     }
+
 
 
     /*------------------------------------------------------------*/
@@ -117,3 +171,40 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     });
 });
+
+// ADD SUBCATEGORIES DROPDOWN
+document.addEventListener('DOMContentLoaded', function() {
+  const categorySelect = document.getElementById('category');
+  const typeContainerFood = document.getElementById('typeContainerFood');
+  const typeContainerTrans = document.getElementById('typeContainerTrans');
+  
+  // Listen for changes in the category select dropdown
+  categorySelect.addEventListener('change', function() {
+    const selectedCategory = categorySelect.value;
+
+    // Show or hide the "Type" dropdown based on the selected category
+    if (selectedCategory === 'food') {
+      // Show the Type dropdown if 'food' is selected
+      typeContainerFood.style.display = 'block';
+      typeContainerTrans.style.display = 'none';
+    } else if (selectedCategory === 'transportation') {
+
+      typeContainerTrans.style.display = 'block';
+      typeContainerFood.style.display = 'none';
+    } 
+    else {
+      // Hide the Type dropdown for other categories
+      typeContainerFood.style.display = 'none';
+      typeContainerTrans.style.display = 'none';
+    }
+  });
+});
+
+
+
+
+
+
+
+
+

@@ -60,11 +60,50 @@ def add_expense():
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    query = f"INSERT INTO {category} (amount, date, memo) VALUES (%s, %s, %s)"
-    cursor.execute(query, (amount, date, memo))  # Execute the query
-    conn.commit()  # Commit changes
-    cursor.close()  # Close the cursor
-    conn.close()  # Close the connection
+
+    if category == "food":
+
+        type = request.form['type']
+        is_grocery = None
+
+        if type == "groceries":
+            is_grocery = 1
+        else:
+            is_grocery = 0
+
+        query = f"INSERT INTO {category} (amount, date, memo, is_grocery) VALUES (%s, %s, %s, %s)"
+        cursor.execute(query, (amount, date, memo, is_grocery))  # Execute the query
+        conn.commit()  # Commit changes
+        cursor.close()  # Close the cursor
+        conn.close()  # Close the connection
+
+    elif category == "transportation":
+        
+
+        trans_type = request.form['trans_type']
+                
+        val = None
+
+        if trans_type == "insurance":
+            val = "insurance"
+        elif trans_type == "gas":
+            val = "gas"
+        else:
+            val = "other"
+
+
+        query = f"INSERT INTO {category} (amount, date, memo, subcategory) VALUES (%s, %s, %s, %s)"
+        cursor.execute(query, (amount, date, memo, val))  # Execute the query
+        conn.commit()  # Commit changes
+        cursor.close()  # Close the cursor
+        conn.close()  # Close the connection
+
+    else:
+        query = f"INSERT INTO {category} (amount, date, memo) VALUES (%s, %s, %s)"
+        cursor.execute(query, (amount, date, memo))  # Execute the query
+        conn.commit()  # Commit changes
+        cursor.close()  # Close the cursor
+        conn.close()  # Close the connection
 
     return jsonify({'status': 'success'})  # Return success response
 
@@ -85,11 +124,68 @@ def get_budget_data():
 
     results = {}
     for category in categories:
-        query = f"SELECT SUM(amount) FROM {category} WHERE DATE_FORMAT(date, '%Y-%m') = %s"
-        cursor.execute(query, (month,))
-        result = cursor.fetchone()
-        # print(f"Category: {category}, Amount: {result[0]}")  # Log the result for each category
-        results[category] = float(result[0]) if result[0] else 0.0
+
+        results[category] = {}
+
+        if category == "food":
+            grocery_query = f"SELECT SUM(amount) FROM {category} WHERE DATE_FORMAT(date, '%Y-%m') = %s AND is_grocery = 1"
+            cursor.execute(grocery_query, (month,))
+            groceries_total = cursor.fetchone()
+
+            out_query = f"SELECT SUM(amount) FROM {category} WHERE DATE_FORMAT(date, '%Y-%m') = %s AND is_grocery = 0"
+            cursor.execute(out_query, (month,))
+            out_total = cursor.fetchone()
+
+
+            grocery_total = float(groceries_total[0]) if groceries_total[0] else 0.0
+            out_total = float(out_total[0]) if out_total[0] else 0.0
+            
+            total = float(grocery_total + out_total)
+
+            # Return both groceries and out totals
+            results[category] = {
+                "groceries": grocery_total,
+                "out": out_total,
+                "total": total
+            }
+        elif category == "transportation":
+
+
+            insurance_query = f"SELECT SUM(amount) FROM {category} WHERE DATE_FORMAT(date, '%Y-%m') = %s AND subcategory = 'insurance'"
+            cursor.execute(insurance_query, (month,))
+            insurance_total = cursor.fetchone()
+
+            gas_query = f"SELECT SUM(amount) FROM {category} WHERE DATE_FORMAT(date, '%Y-%m') = %s AND subcategory = 'gas'"
+            cursor.execute(gas_query, (month,))
+            gas_total = cursor.fetchone()
+
+
+            other_query = f"SELECT SUM(amount) FROM {category} WHERE DATE_FORMAT(date, '%Y-%m') = %s AND subcategory = 'other'"
+            cursor.execute(other_query, (month,))
+            other_total = cursor.fetchone()
+
+
+            insurance_total = float(insurance_total[0]) if insurance_total[0] else 0.0
+            gas_total = float(gas_total[0]) if gas_total[0] else 0.0
+            other_total = float(other_total[0]) if other_total[0] else 0.0
+            
+            total = float(insurance_total + gas_total + other_total)
+
+            # Return both groceries and out totals
+            results[category] = {
+                "insurance": insurance_total,
+                "gas": gas_total,
+                "other": other_total,
+                "total": total
+            }
+
+
+        else:
+            
+            query = f"SELECT SUM(amount) FROM {category} WHERE DATE_FORMAT(date, '%Y-%m') = %s"
+            cursor.execute(query, (month,))
+            result = cursor.fetchone()
+            results[category] = float(result[0]) if result[0] else 0.0
 
     cursor.close()
     conn.close()
