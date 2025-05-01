@@ -109,6 +109,26 @@ th {
   font-size: 24px;
 }
 
+/*SELECT MONTH*/
+
+.monthPicker {
+  display: flex;
+  float: left; 
+  padding: 10px 10px;
+  background-color: #8dbee1;
+  width: 200px;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-items: center;
+  justify-content: center;
+  margin-top: -52px;
+}
+
 /*EXPENSE BUTTON*/
 
 .add-expense-btn {

@@ -68,5 +68,57 @@ def add_expense():
 
     return jsonify({'status': 'success'})  # Return success response
 
+
+
+@app.route('/get_budget_data', methods=['GET'])
+def get_budget_data():
+    categories = ['housing', 'food', 'drinks', 'clothing', 'subscriptions', 'fitness', 'transportation', 'other']
+    month = request.args.get('month')
+
+    if not month:
+        return jsonify({"error": "Month is required"}), 400
+
+    # print(f"Received month: {month}")  # Log the received month parameter
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    results = {}
+    for category in categories:
+        query = f"SELECT SUM(amount) FROM {category} WHERE DATE_FORMAT(date, '%Y-%m') = %s"
+        cursor.execute(query, (month,))
+        result = cursor.fetchone()
+        # print(f"Category: {category}, Amount: {result[0]}")  # Log the result for each category
+        results[category] = float(result[0]) if result[0] else 0.0
+
+    cursor.close()
+    conn.close()
+
+    return jsonify(results)
+
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=5001)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
