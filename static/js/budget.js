@@ -143,6 +143,106 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
+    function updateExpensesTable(year) {
+        fetch(`/get_expense_data?year=${year}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+
+                // Array of month names to display in the table
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                // Select all rows from both tables in the expenses category
+                const expenseTables = document.querySelectorAll('.expense-category.expenses table tbody');
+                const allRows = [...expenseTables[0].rows, ...expenseTables[1].rows];
+
+                let total = 0;
+
+                let num_months = 0;
+
+                // Loop through each month and update the table
+                for (let month = 1; month <= 12; month++) {
+                    const amount = data[month] || 0.0;  // Default to 0.0 if no data
+                    total += amount;
+
+                    if (amount > 0){
+                      num_months += 1;
+                    }
+
+                    const formattedAmount = `$${amount.toFixed(2)}`;
+
+                    // Find the row corresponding to the current month (January to December)
+                    if (allRows[month - 1]) {
+                        // Update the second column (amount column) for the month row
+                        allRows[month - 1].cells[1].textContent = formattedAmount;
+                    }
+                }
+
+                const average = total / num_months;
+
+                // Update the total and average fields in the second table
+                const totalRow = expenseTables[1].rows[expenseTables[1].rows.length - 2];
+                const avgRow = expenseTables[1].rows[expenseTables[1].rows.length - 1];
+                totalRow.cells[1].textContent = `$${total.toFixed(2)}`;
+                avgRow.cells[1].textContent = `$${average.toFixed(2)}`;
+            })
+            .catch(error => {
+                console.error("Failed to load budget data:", error);
+            });
+    }
+
+
+
+    function updateIncomeTable(year) {
+        fetch(`/get_income_data?year=${year}`)
+            .then(response => response.json())
+            .then(data => {
+
+                // console.log(data);
+
+                const monthNames = [
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                ];
+
+                // Select all income table rows
+                const incomeTables = document.querySelectorAll('.expense-category.income table tbody');
+                const allRows = [...incomeTables[0].rows, ...incomeTables[1].rows];
+
+                let total = 0;
+
+                let num_months = 0
+
+                for (let i = 0; i < 12; i++) {
+                    const month = i + 1;
+                    const amount = data[month] || 0.0;
+                    total += amount;
+
+                    if (amount > 0){
+                      num_months += 1;
+                    }
+
+                    const formattedAmount = `$${amount.toFixed(2)}`;
+                    if (allRows[i]) {
+                        allRows[i].cells[1].textContent = formattedAmount;
+                    }
+                }
+
+                const average = total / num_months;
+
+                // Update total and average rows (last 2 rows in second table)
+                const totalRow = incomeTables[1].rows[incomeTables[1].rows.length - 2];
+                const avgRow = incomeTables[1].rows[incomeTables[1].rows.length - 1];
+                totalRow.cells[1].textContent = `$${total.toFixed(2)}`;
+                avgRow.cells[1].textContent = `$${average.toFixed(2)}`;
+            })
+            .catch(error => {
+                console.error("Failed to load budget data:", error);
+            });
+    }
+
+
+
     /*------------------------------------------------------------*/
     // INITIALIZATION
     if (!monthPicker.value) {
@@ -158,6 +258,8 @@ document.addEventListener("DOMContentLoaded", function () {
     updateMonthLabel(monthPicker.value);
     updateBudgetTable(monthPicker.value);
     updateYearLabel(yearPicker.value);
+    updateIncomeTable(yearPicker.value);
+    updateExpensesTable(yearPicker.value)
 
     /*------------------------------------------------------------*/
     // EVENT LISTENERS
@@ -168,7 +270,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     yearPicker.addEventListener("change", function () {
         updateYearLabel(this.value);
-        // updateYearTable
+        updateIncomeTable(yearPicker.value);
+        updateExpensesTable(yearPicker.value)
     });
 
     openModalBtn.addEventListener("click", () => {
@@ -199,7 +302,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     expenseForm.reset();
                     modal.style.display = "none";
                     updateBudgetTable(monthPicker.value);
-                    // updateYearTable
+                    updateIncomeTable(yearPicker.value);
+                    updateExpensesTable(yearPicker.value)
                 } else {
                     alert("There was an error submitting your expense.");
                 }

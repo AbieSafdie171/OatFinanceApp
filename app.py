@@ -108,6 +108,79 @@ def add_expense():
     return jsonify({'status': 'success'})  # Return success response
 
 
+@app.route('/get_income_data', methods=['GET'])
+def get_income_data():
+    year = int(request.args.get('year'))
+
+    if not year:
+        return jsonify({"error": "Year is required"}), 400
+
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    results = {}
+
+    for i in range(1, 13):
+        query = "SELECT SUM(amount) FROM income WHERE MONTH(date) = %s AND YEAR(date) = %s"
+
+        cursor.execute(query, (i, year))
+
+        amount = cursor.fetchone()
+
+        results[i] = amount[0] if amount[0] is not None else 0.0
+
+
+    cursor.close()
+    conn.close()
+
+
+    return jsonify(results)
+
+@app.route('/get_expense_data', methods=['GET'])
+def get_expense_data():
+    year = int(request.args.get('year'))
+
+    tables = ["clothing", "drinks", "fitness", "food", "housing", "other", "subscriptions", "transportation"]
+
+    if not year:
+        return jsonify({"error": "Year is required"}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    results = {}
+
+    # Initialize the results dictionary for each month
+    for i in range(1, 13):
+        results[i] = 0.0  # Start with 0 for each month
+
+    # Loop through each table and each month
+    for i in range(1, 13):
+        total_amount = 0.0
+        for table in tables:
+            query = f"SELECT SUM(amount) FROM {table} WHERE MONTH(date) = %s AND YEAR(date) = %s"
+            
+            # Execute the query with month and year parameters
+            cursor.execute(query, (i, year))
+            amount = cursor.fetchone()
+
+            # Add the amount to the total for this month
+            if amount and amount[0] is not None:
+                total_amount += amount[0]
+
+        # Store the total amount for the current month
+        results[i] = total_amount
+
+    cursor.close()
+    conn.close()
+
+    return jsonify(results)
+
+
+
+
+
 
 @app.route('/get_budget_data', methods=['GET'])
 def get_budget_data():
@@ -187,7 +260,6 @@ def get_budget_data():
             results[category] = float(result[0]) if result[0] else 0.0
 
 
-    print(month)
     query = f"SELECT SUM(amount) FROM income WHERE DATE_FORMAT(date, '%Y-%m') = %s"
     cursor.execute(query, (month,))
     result = cursor.fetchone()
