@@ -12,8 +12,8 @@
 
         <div class="text-content-top">
             <h3><b></b></h3>
-            <input class="monthPicker" type="month" id="monthPicker" name="monthPicker">
-            <button class="ledger-btn">View Ledger</button> <button class="add-expense-btn">Add Expense</button>
+            <input class="monthPicker" type="month" id="monthPicker" name="monthPicker"><button class="current-btn">Current Month</button> 
+            <button class="avg-btn">Avg Month</button> <button class="ledger-btn">View Ledger</button> <button class="add-expense-btn">Add Expense</button>
         </div>
 
         <div class="budget-table">
@@ -95,13 +95,24 @@
         </div>
 
         <div class="text-content-bottom">
-            <h3><b>Expenses (without housing): </b></h3>
-            <h3><b>Savings: </b></h3>
+            <h3><b>Expenses (without housing): </b><span id="expense-value-nohouse"></span></h3>
+            <h3><b>Savings: </b><span id="savings-value"></span></h3>
         </div>
 
     </div>
 
     <div class="expenses-div">
+        <div class="text-content-top-expenses">
+            <h3><b></b></h3>
+            <select class="yearPicker" id="yearPicker" name="year">
+                <script>
+                    const currentYear = new Date().getFullYear();
+                    for (let year = currentYear; year >= 2024; year--) {
+                        document.write(`<option value="${year}">${year}</option>`);
+                    }
+                </script>
+            </select>
+        </div>
         <div class="expenses-table">
             <div class="expense-category income">
                 <h4>Income</h4>

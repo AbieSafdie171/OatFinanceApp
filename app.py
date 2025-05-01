@@ -180,12 +180,22 @@ def get_budget_data():
             }
 
 
-        else:
-            
+        else:            
             query = f"SELECT SUM(amount) FROM {category} WHERE DATE_FORMAT(date, '%Y-%m') = %s"
             cursor.execute(query, (month,))
             result = cursor.fetchone()
             results[category] = float(result[0]) if result[0] else 0.0
+
+
+    print(month)
+    query = f"SELECT SUM(amount) FROM income WHERE DATE_FORMAT(date, '%Y-%m') = %s"
+    cursor.execute(query, (month,))
+    result = cursor.fetchone()
+
+    if result[0] is None:
+        results['income'] = 0.0
+    else:
+        results['income'] = float(result[0])
 
     cursor.close()
     conn.close()

@@ -7,9 +7,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const openModalBtn = document.querySelector(".add-expense-btn");
     const closeModalBtn = document.querySelector(".close");
     const expenseForm = document.getElementById("expenseForm");
+    const yearPicker = document.getElementById("yearPicker");
+    const yearLabel = document.querySelector(".text-content-top-expenses h3 b");
+    const categorySelect = document.getElementById('category');
+    const typeContainerFood = document.getElementById('typeContainerFood');
+    const typeContainerTrans = document.getElementById('typeContainerTrans');
 
     /*------------------------------------------------------------*/
-    // FORMAT MONTH LABEL
+    // FORMATTERS
     function formatMonthLabel(isoMonth) {
         const [year, month] = isoMonth.split("-");
         const date = new Date(Number(year), Number(month) - 1);
@@ -20,15 +25,30 @@ document.addEventListener("DOMContentLoaded", function () {
         monthLabel.textContent = formatMonthLabel(monthValue);
     }
 
+    function formatYearLabel(year) {
+        return year;
+    }
+
+    function updateYearLabel(yearValue) {
+        yearLabel.textContent = formatYearLabel(yearValue);
+    }
+
     /*------------------------------------------------------------*/
-    // UPDATE BUDGET TABLE
+    // BUDGET TABLE UPDATER
     function updateBudgetTable(month) {
         fetch(`/get_budget_data?month=${month}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                let expensesTotal = 0.0;
+                let expensesTotalNoHousing = 0.0;
+                let income = 0.0;
 
                 for (const [category, amounts] of Object.entries(data)) {
+                    if (category === "income") {
+                        income = amounts;
+                        continue;
+                    }
+
                     const categoryDiv = document.querySelector(`.category.${category}`);
                     if (!categoryDiv) continue;
 
@@ -38,67 +58,83 @@ document.addEventListener("DOMContentLoaded", function () {
                     const rows = table.querySelectorAll("tr");
 
                     if (category === "food") {
-                        // For food, you need to update both Groceries and Out
                         let groceriesTotal = amounts.groceries || 0;
                         let outTotal = amounts.out || 0;
 
-                        // Update Groceries row
-                        const groceriesRow = rows[0];  // Assuming Groceries is the first row
-                        if (groceriesRow) {
-                            groceriesRow.cells[1].textContent = `$${groceriesTotal.toFixed(2)}`;
-                        }
-
-                        // Update Out row
-                        const outRow = rows[1];  // Assuming Out is the second row
-                        if (outRow) {
-                            outRow.cells[1].textContent = `$${outTotal.toFixed(2)}`;
-                        }
-
-                        // Update Total row
-                        const totalRow = rows[2];  // Assuming Total is the third row
-                        if (totalRow) {
+                        if (rows[0]) rows[0].cells[1].textContent = `$${groceriesTotal.toFixed(2)}`;
+                        if (rows[1]) rows[1].cells[1].textContent = `$${outTotal.toFixed(2)}`;
+                        if (rows[2]) {
                             const total = groceriesTotal + outTotal;
-                            totalRow.cells[1].textContent = `$${total.toFixed(2)}`;
+                            rows[2].cells[1].textContent = `$${total.toFixed(2)}`;
+                            expensesTotal += total;
+                            expensesTotalNoHousing += total;
                         }
-                    } else if (category == "transportation"){
-
+                    } else if (category === "transportation") {
                         let insuranceTotal = amounts.insurance || 0;
                         let gasTotal = amounts.gas || 0;
                         let otherTotal = amounts.other || 0;
 
-                        // Update insurance row
-                        const insuranceRow = rows[0]; 
-                        if (insuranceRow) {
-                            insuranceRow.cells[1].textContent = `$${insuranceTotal.toFixed(2)}`;
-                        }
-
-                        // Update gas row
-                        const gasRow = rows[1];  // Assuming Out is the second row
-                        if (gasRow) {
-                            gasRow.cells[1].textContent = `$${gasTotal.toFixed(2)}`;
-                        }
-
-                        // Update gas row
-                        const otherRow = rows[2];  // Assuming Out is the second row
-                        if (otherRow) {
-                            otherRow.cells[1].textContent = `$${otherTotal.toFixed(2)}`;
-                        }
-
-                        // Update Total row
-                        const totalRow = rows[3];  // Assuming Total is the third row
-                        if (totalRow) {
+                        if (rows[0]) rows[0].cells[1].textContent = `$${insuranceTotal.toFixed(2)}`;
+                        if (rows[1]) rows[1].cells[1].textContent = `$${gasTotal.toFixed(2)}`;
+                        if (rows[2]) rows[2].cells[1].textContent = `$${otherTotal.toFixed(2)}`;
+                        if (rows[3]) {
                             const total = insuranceTotal + gasTotal + otherTotal;
-                            totalRow.cells[1].textContent = `$${total.toFixed(2)}`;
+                            rows[3].cells[1].textContent = `$${total.toFixed(2)}`;
+                            expensesTotal += total;
+                            expensesTotalNoHousing += total;
                         }
-                    } 
-                    else {
-                        // For other categories, update the total as before
-                        const baseRow = rows[0];  // Assuming Total is the second row
-                        const totalRow = rows[1];  // Assuming Total is the second row
+                    } else {
+                        const baseRow = rows[0];
+                        const totalRow = rows[1];
                         if (totalRow) {
                             totalRow.cells[1].textContent = `$${amounts.toFixed(2)}`;
                             baseRow.cells[1].textContent = `$${amounts.toFixed(2)}`;
+                            if (category !== "housing") {
+                                expensesTotalNoHousing += amounts;
+                            }
+                            expensesTotal += amounts;
                         }
+                    }
+                }
+
+                const expenseNoHousing = document.getElementById("expense-value-nohouse");
+                const savingsValue = document.getElementById("savings-value");
+
+                expenseNoHousing.textContent = `$${expensesTotalNoHousing.toFixed(2)}`;
+                expenseNoHousing.style.color = "#ff0000";
+
+                const savings = income - expensesTotal;
+                savingsValue.textContent = `$${savings.toFixed(2)}`;
+                savingsValue.style.color = savings < 0 ? "#ff0000" : "green";
+
+                // Update percentages
+                for (const [category] of Object.entries(data)) {
+                    const categoryDiv = document.querySelector(`.category.${category}`);
+                    if (!categoryDiv) continue;
+
+                    const table = categoryDiv.querySelector("table");
+                    if (!table) continue;
+
+                    const rows = table.querySelectorAll("tr");
+                    let totalRow, percentRow;
+
+                    if (category === "food") {
+                        totalRow = rows[2];
+                        percentRow = rows[3];
+                    } else if (category === "transportation") {
+                        totalRow = rows[3];
+                        percentRow = rows[4];
+                    } else {
+                        totalRow = rows[1];
+                        percentRow = rows[2];
+                    }
+
+                    if (percentRow && totalRow) {
+                        let amountStr = totalRow.cells[1].textContent.replace(/<\/?th>/g, '').replace('$', '');
+                        let amount = parseFloat(amountStr);
+                        let percent = (amount / expensesTotal) * 100;
+
+                        percentRow.cells[1].textContent = isNaN(percent) ? `0%` : `${percent.toFixed(2)}%`;
                     }
                 }
             })
@@ -107,29 +143,34 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-
-
     /*------------------------------------------------------------*/
-    // INIT MONTH PICKER VALUE IF EMPTY
+    // INITIALIZATION
     if (!monthPicker.value) {
         const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        monthPicker.value = `${year}-${month}`;
+        monthPicker.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
     }
 
-    // Initial setup
+    if (!yearPicker.value) {
+        const now = new Date();
+        yearPicker.value = now.getFullYear();
+    }
+
     updateMonthLabel(monthPicker.value);
     updateBudgetTable(monthPicker.value);
+    updateYearLabel(yearPicker.value);
 
-    // Update on month change
+    /*------------------------------------------------------------*/
+    // EVENT LISTENERS
     monthPicker.addEventListener("change", function () {
         updateMonthLabel(this.value);
         updateBudgetTable(this.value);
     });
 
-    /*------------------------------------------------------------*/
-    // ADD EXPENSE MODAL HANDLING
+    yearPicker.addEventListener("change", function () {
+        updateYearLabel(this.value);
+        // updateYearTable
+    });
+
     openModalBtn.addEventListener("click", () => {
         modal.style.display = "block";
     });
@@ -144,11 +185,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    /*------------------------------------------------------------*/
-    // SUBMIT EXPENSE FORM
     expenseForm.addEventListener("submit", function (e) {
         e.preventDefault();
-
         const formData = new FormData(expenseForm);
 
         fetch("/add_expense", {
@@ -160,7 +198,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (data.status === "success") {
                     expenseForm.reset();
                     modal.style.display = "none";
-                    updateBudgetTable(monthPicker.value); // Refresh after adding
+                    updateBudgetTable(monthPicker.value);
+                    // updateYearTable
                 } else {
                     alert("There was an error submitting your expense.");
                 }
@@ -170,41 +209,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 alert("Failed to submit expense.");
             });
     });
+
+    categorySelect.addEventListener('change', function () {
+        const selectedCategory = categorySelect.value;
+
+        typeContainerFood.style.display = selectedCategory === 'food' ? 'block' : 'none';
+        typeContainerTrans.style.display = selectedCategory === 'transportation' ? 'block' : 'none';
+    });
 });
-
-// ADD SUBCATEGORIES DROPDOWN
-document.addEventListener('DOMContentLoaded', function() {
-  const categorySelect = document.getElementById('category');
-  const typeContainerFood = document.getElementById('typeContainerFood');
-  const typeContainerTrans = document.getElementById('typeContainerTrans');
-  
-  // Listen for changes in the category select dropdown
-  categorySelect.addEventListener('change', function() {
-    const selectedCategory = categorySelect.value;
-
-    // Show or hide the "Type" dropdown based on the selected category
-    if (selectedCategory === 'food') {
-      // Show the Type dropdown if 'food' is selected
-      typeContainerFood.style.display = 'block';
-      typeContainerTrans.style.display = 'none';
-    } else if (selectedCategory === 'transportation') {
-
-      typeContainerTrans.style.display = 'block';
-      typeContainerFood.style.display = 'none';
-    } 
-    else {
-      // Hide the Type dropdown for other categories
-      typeContainerFood.style.display = 'none';
-      typeContainerTrans.style.display = 'none';
-    }
-  });
-});
-
-
-
-
-
-
-
-
-
