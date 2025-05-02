@@ -2,6 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
     /*------------------------------------------------------------*/
     // GLOBALS
     const monthPicker = document.getElementById("monthPicker");
+    const currentMonthBtn = document.getElementById("current-btn");
+    const avgMonthBtn = document.getElementById("avg-btn");
+    const realAvgMonthBtn = document.getElementById("real-avg-mnth-btn");
     const monthLabel = document.querySelector(".text-content-top h3 b");
     const modal = document.getElementById("expenseModal");
     const openModalBtn = document.querySelector(".add-expense-btn");
@@ -25,6 +28,14 @@ document.addEventListener("DOMContentLoaded", function () {
         monthLabel.textContent = formatMonthLabel(monthValue);
     }
 
+    function updateMonthLabelYear(year){
+        monthLabel.textContent = year;
+    }
+
+    function updateMonthLabelAvg(year){
+        monthLabel.textContent = `Average Month ${year}`;
+    }
+
     function formatYearLabel(year) {
         return year;
     }
@@ -39,6 +50,9 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`/get_budget_data?month=${month}`)
             .then(response => response.json())
             .then(data => {
+
+                // console.log(data);
+
                 let expensesTotal = 0.0;
                 let expensesTotalNoHousing = 0.0;
                 let income = 0.0;
@@ -100,11 +114,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 const expenseNoHousing = document.getElementById("expense-value-nohouse");
                 const savingsValue = document.getElementById("savings-value");
 
-                expenseNoHousing.textContent = `$${expensesTotalNoHousing.toFixed(2)}`;
+                let expensesTotalNoHousingPercent = (expensesTotalNoHousing / income) * 100;
+                expensesTotalNoHousingPercent = expensesTotalNoHousingPercent.toFixed(2);
+                expenseNoHousing.textContent = `$${expensesTotalNoHousing.toFixed(2)} (${expensesTotalNoHousingPercent}%)`;
                 expenseNoHousing.style.color = "#ff0000";
 
                 const savings = income - expensesTotal;
-                savingsValue.textContent = `$${savings.toFixed(2)}`;
+                let savings_percent = (savings / income) * 100
+                savings_percent = savings_percent.toFixed(2);
+                savingsValue.textContent = `$${savings.toFixed(2)} (${savings_percent}%)`;
                 savingsValue.style.color = savings < 0 ? "#ff0000" : "green";
 
                 // Update percentages
@@ -147,7 +165,6 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`/get_expense_data?year=${year}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
 
                 // Array of month names to display in the table
                 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -241,7 +258,243 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
+    function updateBudgetTableYear(year) {
+        fetch(`/get_year_data?year=${year}`)
+            .then(response => response.json())
+            .then(data => {
 
+                // console.log(data);
+                                let expensesTotal = 0.0;
+                let expensesTotalNoHousing = 0.0;
+                let income = 0.0;
+
+                for (const [category, amounts] of Object.entries(data)) {
+                    if (category === "income") {
+                        income = amounts;
+                        continue;
+                    }
+
+                    const categoryDiv = document.querySelector(`.category.${category}`);
+                    if (!categoryDiv) continue;
+
+                    const table = categoryDiv.querySelector("table");
+                    if (!table) continue;
+
+                    const rows = table.querySelectorAll("tr");
+
+                    if (category === "food") {
+                        let groceriesTotal = amounts.groceries || 0;
+                        let outTotal = amounts.out || 0;
+
+                        if (rows[0]) rows[0].cells[1].textContent = `$${groceriesTotal.toFixed(2)}`;
+                        if (rows[1]) rows[1].cells[1].textContent = `$${outTotal.toFixed(2)}`;
+                        if (rows[2]) {
+                            const total = groceriesTotal + outTotal;
+                            rows[2].cells[1].textContent = `$${total.toFixed(2)}`;
+                            expensesTotal += total;
+                            expensesTotalNoHousing += total;
+                        }
+                    } else if (category === "transportation") {
+                        let insuranceTotal = amounts.insurance || 0;
+                        let gasTotal = amounts.gas || 0;
+                        let otherTotal = amounts.other || 0;
+
+                        if (rows[0]) rows[0].cells[1].textContent = `$${insuranceTotal.toFixed(2)}`;
+                        if (rows[1]) rows[1].cells[1].textContent = `$${gasTotal.toFixed(2)}`;
+                        if (rows[2]) rows[2].cells[1].textContent = `$${otherTotal.toFixed(2)}`;
+                        if (rows[3]) {
+                            const total = insuranceTotal + gasTotal + otherTotal;
+                            rows[3].cells[1].textContent = `$${total.toFixed(2)}`;
+                            expensesTotal += total;
+                            expensesTotalNoHousing += total;
+                        }
+                    } else {
+                        const baseRow = rows[0];
+                        const totalRow = rows[1];
+                        if (totalRow) {
+                            totalRow.cells[1].textContent = `$${amounts.toFixed(2)}`;
+                            baseRow.cells[1].textContent = `$${amounts.toFixed(2)}`;
+                            if (category !== "housing") {
+                                expensesTotalNoHousing += amounts;
+                            }
+                            expensesTotal += amounts;
+                        }
+                    }
+                }
+
+                const expenseNoHousing = document.getElementById("expense-value-nohouse");
+                const savingsValue = document.getElementById("savings-value");
+
+                let expensesTotalNoHousingPercent = (expensesTotalNoHousing / income) * 100;
+                expensesTotalNoHousingPercent = expensesTotalNoHousingPercent.toFixed(2);
+                expenseNoHousing.textContent = `$${expensesTotalNoHousing.toFixed(2)} (${expensesTotalNoHousingPercent}%)`;
+                expenseNoHousing.style.color = "#ff0000";
+
+                const savings = income - expensesTotal;
+                let savings_percent = (savings / income) * 100
+                savings_percent = savings_percent.toFixed(2);
+                savingsValue.textContent = `$${savings.toFixed(2)} (${savings_percent}%)`;
+                savingsValue.style.color = savings < 0 ? "#ff0000" : "green";
+
+                // Update percentages
+                for (const [category] of Object.entries(data)) {
+                    const categoryDiv = document.querySelector(`.category.${category}`);
+                    if (!categoryDiv) continue;
+
+                    const table = categoryDiv.querySelector("table");
+                    if (!table) continue;
+
+                    const rows = table.querySelectorAll("tr");
+                    let totalRow, percentRow;
+
+                    if (category === "food") {
+                        totalRow = rows[2];
+                        percentRow = rows[3];
+                    } else if (category === "transportation") {
+                        totalRow = rows[3];
+                        percentRow = rows[4];
+                    } else {
+                        totalRow = rows[1];
+                        percentRow = rows[2];
+                    }
+
+                    if (percentRow && totalRow) {
+                        let amountStr = totalRow.cells[1].textContent.replace(/<\/?th>/g, '').replace('$', '');
+                        let amount = parseFloat(amountStr);
+                        let percent = (amount / expensesTotal) * 100;
+
+                        percentRow.cells[1].textContent = isNaN(percent) ? `0%` : `${percent.toFixed(2)}%`;
+                    }
+                }
+
+            })
+            .catch(error => {
+                console.error("Failed to load budget data:", error);
+            });
+    }
+
+    function updateBudgetTableAvg(year) {
+        fetch(`/get_avg_month?year=${year}`)
+            .then(response => response.json())
+            .then(data => {
+
+                // console.log(data);
+
+
+
+                let currentMonth = new Date();      // NOTE MONTHS ARE 0-INDEXED. I.E. JAN IS 0, FEB IS 1...
+
+                currentMonth = currentMonth.getMonth() + 1;
+
+                let expensesTotal = 0.0;
+                let expensesTotalNoHousing = 0.0;
+                let income = 0.0;
+
+                for (const [category, amounts] of Object.entries(data)) {
+                    if (category === "income") {
+                        income = amounts / currentMonth;
+                        continue;
+                    }
+
+                    const categoryDiv = document.querySelector(`.category.${category}`);
+                    if (!categoryDiv) continue;
+
+                    const table = categoryDiv.querySelector("table");
+                    if (!table) continue;
+
+                    const rows = table.querySelectorAll("tr");
+
+                    if (category === "food") {
+                        let groceriesTotal = (amounts.groceries || 0) / currentMonth;
+                        let outTotal = (amounts.out || 0) / currentMonth;
+
+                        if (rows[0]) rows[0].cells[1].textContent = `$${groceriesTotal.toFixed(2)}`;
+                        if (rows[1]) rows[1].cells[1].textContent = `$${outTotal.toFixed(2)}`;
+                        if (rows[2]) {
+                            const total = groceriesTotal + outTotal;
+                            rows[2].cells[1].textContent = `$${total.toFixed(2)}`;
+                            expensesTotal += total;
+                            expensesTotalNoHousing += total;
+                        }
+                    } else if (category === "transportation") {
+                        let insuranceTotal = (amounts.insurance || 0) / currentMonth;
+                        let gasTotal = (amounts.gas || 0) / currentMonth;
+                        let otherTotal = (amounts.other || 0) / currentMonth;
+
+                        if (rows[0]) rows[0].cells[1].textContent = `$${insuranceTotal.toFixed(2)}`;
+                        if (rows[1]) rows[1].cells[1].textContent = `$${gasTotal.toFixed(2)}`;
+                        if (rows[2]) rows[2].cells[1].textContent = `$${otherTotal.toFixed(2)}`;
+                        if (rows[3]) {
+                            const total = insuranceTotal + gasTotal + otherTotal;
+                            rows[3].cells[1].textContent = `$${total.toFixed(2)}`;
+                            expensesTotal += total;
+                            expensesTotalNoHousing += total;
+                        }
+                    } else {
+                        const baseRow = rows[0];
+                        const totalRow = rows[1];
+                        let amount = amounts / currentMonth;
+                        if (totalRow) {
+                            totalRow.cells[1].textContent = `$${amount.toFixed(2)}`;
+                            baseRow.cells[1].textContent = `$${amount.toFixed(2)}`;
+                            if (category !== "housing") {
+                                expensesTotalNoHousing += amount;
+                            }
+                            expensesTotal += amount;
+                        }
+                    }
+                }
+
+                const expenseNoHousing = document.getElementById("expense-value-nohouse");
+                const savingsValue = document.getElementById("savings-value");
+
+                let expensesTotalNoHousingPercent = (expensesTotalNoHousing / income) * 100;
+                expensesTotalNoHousingPercent = expensesTotalNoHousingPercent.toFixed(2);
+                expenseNoHousing.textContent = `$${expensesTotalNoHousing.toFixed(2)} (${expensesTotalNoHousingPercent}%)`;
+                expenseNoHousing.style.color = "#ff0000";
+
+                const savings = income - expensesTotal;
+                let savings_percent = (savings / income) * 100
+                savings_percent = savings_percent.toFixed(2);
+                savingsValue.textContent = `$${savings.toFixed(2)} (${savings_percent}%)`;
+                savingsValue.style.color = savings < 0 ? "#ff0000" : "green";
+
+                // Update percentages
+                for (const [category] of Object.entries(data)) {
+                    const categoryDiv = document.querySelector(`.category.${category}`);
+                    if (!categoryDiv) continue;
+
+                    const table = categoryDiv.querySelector("table");
+                    if (!table) continue;
+
+                    const rows = table.querySelectorAll("tr");
+                    let totalRow, percentRow;
+
+                    if (category === "food") {
+                        totalRow = rows[2];
+                        percentRow = rows[3];
+                    } else if (category === "transportation") {
+                        totalRow = rows[3];
+                        percentRow = rows[4];
+                    } else {
+                        totalRow = rows[1];
+                        percentRow = rows[2];
+                    }
+
+                    if (percentRow && totalRow) {
+                        let amountStr = totalRow.cells[1].textContent.replace(/<\/?th>/g, '').replace('$', '');
+                        let amount = parseFloat(amountStr);
+                        let percent = (amount / expensesTotal) * 100;
+
+                        percentRow.cells[1].textContent = isNaN(percent) ? `0%` : `${percent.toFixed(2)}%`;
+                    }
+                }
+
+            })
+            .catch(error => {
+                console.error("Failed to load budget data:", error);
+            });
+    }
 
     /*------------------------------------------------------------*/
     // INITIALIZATION
@@ -267,6 +520,32 @@ document.addEventListener("DOMContentLoaded", function () {
         updateMonthLabel(this.value);
         updateBudgetTable(this.value);
     });
+
+
+    currentMonthBtn.addEventListener("click", function (){
+        const now = new Date();
+        monthPicker.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+        updateMonthLabel(monthPicker.value);
+        updateBudgetTable(monthPicker.value);
+
+    });
+
+    avgMonthBtn.addEventListener("click", function (){
+
+        const [year, month] = monthPicker.value.split("-");
+        updateMonthLabelYear(year);
+        updateBudgetTableYear(year);
+
+    });
+
+    realAvgMonthBtn.addEventListener("click", function (){
+
+        const [year, month] = monthPicker.value.split("-");
+        updateMonthLabelAvg(year);
+        updateBudgetTableAvg(year);
+
+    });
+
 
     yearPicker.addEventListener("change", function () {
         updateYearLabel(this.value);

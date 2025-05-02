@@ -107,6 +107,197 @@ def add_expense():
 
     return jsonify({'status': 'success'})  # Return success response
 
+@app.route('/get_avg_month', methods=['GET'])
+def get_avg_month():
+
+    year = int(request.args.get('year'))
+
+    tables = ["clothing", "drinks", "fitness", "food", "housing", "other", "subscriptions", "transportation"]
+
+    if not year:
+        return jsonify({"error": "Year is required"}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    results = {}
+
+    for table in tables:
+
+        if table == "food":
+            results[table] = {}
+            query = f"SELECT SUM(amount) FROM {table} WHERE YEAR(date) = %s AND is_grocery = 1"
+            cursor.execute(query, (year,))
+            amount = cursor.fetchone()
+            if amount and amount[0] is not None:
+                results[table]["groceries"] = amount[0]
+            else:
+                results[table]["groceries"] = 0.0
+
+            query = f"SELECT SUM(amount) FROM {table} WHERE YEAR(date) = %s AND is_grocery = 0"
+            cursor.execute(query, (year,))
+            amount = cursor.fetchone()
+            if amount and amount[0] is not None:
+                results[table]["out"] = amount[0]
+            else:
+                results[table]["out"] = 0.0
+
+            results[table]["total"] = results[table]["out"] + results[table]["groceries"]
+
+
+        elif table == "transportation":
+
+            results[table] = {}
+
+            insurance_query = f"SELECT SUM(amount) FROM {table} WHERE YEAR(date) = %s AND subcategory = 'insurance'"
+            cursor.execute(insurance_query, (year,))
+            amount = cursor.fetchone()
+
+            if amount and amount[0] is not None:
+                results[table]["insurance"] = amount[0]
+            else:
+                results[table]["insurance"] = 0.0
+
+            gas_query = f"SELECT SUM(amount) FROM {table} WHERE YEAR(date) = %s AND subcategory = 'gas'"
+            cursor.execute(gas_query, (year,))
+            amount = cursor.fetchone()
+            if amount and amount[0] is not None:
+                results[table]["gas"] = amount[0]
+            else:
+                results[table]["gas"] = 0.0
+
+
+            other_query = f"SELECT SUM(amount) FROM {table} WHERE YEAR(date) = %s AND subcategory = 'other'"
+            cursor.execute(other_query, (year,))
+            amount = cursor.fetchone()
+            if amount and amount[0] is not None:
+                results[table]["other"] = amount[0]
+            else:
+                results[table]["other"] = 0.0
+
+            results[table]["total"] = results[table]["insurance"] + results[table]["gas"] + results[table]["other"]
+
+        else:
+
+            category_amount = 0.0
+
+            query = f"SELECT SUM(amount) FROM {table} WHERE YEAR(date) = %s"
+            cursor.execute(query, (year,))
+            amount = cursor.fetchone()
+            if amount and amount[0] is not None:
+                    category_amount = amount[0]
+
+            results[table] = category_amount
+
+    query = f"SELECT SUM(amount) FROM income WHERE YEAR(date) = %s"
+    cursor.execute(query, (year,))
+    amount = cursor.fetchone()
+
+    if amount and amount[0] is not None:
+        results['income'] = amount[0]
+
+    cursor.close()
+    conn.close()
+
+
+    return jsonify(results)
+
+@app.route('/get_year_data', methods=['GET'])
+def get_year_data():
+
+    year = int(request.args.get('year'))
+
+    tables = ["clothing", "drinks", "fitness", "food", "housing", "other", "subscriptions", "transportation"]
+
+    if not year:
+        return jsonify({"error": "Year is required"}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    results = {}
+
+    for table in tables:
+
+        if table == "food":
+            results[table] = {}
+            query = f"SELECT SUM(amount) FROM {table} WHERE YEAR(date) = %s AND is_grocery = 1"
+            cursor.execute(query, (year,))
+            amount = cursor.fetchone()
+            if amount and amount[0] is not None:
+                results[table]["groceries"] = amount[0]
+            else:
+                results[table]["groceries"] = 0.0
+
+            query = f"SELECT SUM(amount) FROM {table} WHERE YEAR(date) = %s AND is_grocery = 0"
+            cursor.execute(query, (year,))
+            amount = cursor.fetchone()
+            if amount and amount[0] is not None:
+                results[table]["out"] = amount[0]
+            else:
+                results[table]["out"] = 0.0
+
+            results[table]["total"] = results[table]["out"] + results[table]["groceries"]
+
+
+        elif table == "transportation":
+
+            results[table] = {}
+
+            insurance_query = f"SELECT SUM(amount) FROM {table} WHERE YEAR(date) = %s AND subcategory = 'insurance'"
+            cursor.execute(insurance_query, (year,))
+            amount = cursor.fetchone()
+
+            if amount and amount[0] is not None:
+                results[table]["insurance"] = amount[0]
+            else:
+                results[table]["insurance"] = 0.0
+
+            gas_query = f"SELECT SUM(amount) FROM {table} WHERE YEAR(date) = %s AND subcategory = 'gas'"
+            cursor.execute(gas_query, (year,))
+            amount = cursor.fetchone()
+            if amount and amount[0] is not None:
+                results[table]["gas"] = amount[0]
+            else:
+                results[table]["gas"] = 0.0
+
+
+            other_query = f"SELECT SUM(amount) FROM {table} WHERE YEAR(date) = %s AND subcategory = 'other'"
+            cursor.execute(other_query, (year,))
+            amount = cursor.fetchone()
+            if amount and amount[0] is not None:
+                results[table]["other"] = amount[0]
+            else:
+                results[table]["other"] = 0.0
+
+            results[table]["total"] = results[table]["insurance"] + results[table]["gas"] + results[table]["other"]
+
+        else:
+
+            category_amount = 0.0
+
+            query = f"SELECT SUM(amount) FROM {table} WHERE YEAR(date) = %s"
+            cursor.execute(query, (year,))
+            amount = cursor.fetchone()
+            if amount and amount[0] is not None:
+                    category_amount = amount[0]
+
+            results[table] = category_amount
+
+    query = f"SELECT SUM(amount) FROM income WHERE YEAR(date) = %s"
+    cursor.execute(query, (year,))
+    amount = cursor.fetchone()
+
+    if amount and amount[0] is not None:
+        results['income'] = amount[0]
+
+    cursor.close()
+    conn.close()
+
+
+    return jsonify(results)
+
+
 
 @app.route('/get_income_data', methods=['GET'])
 def get_income_data():
