@@ -1,4 +1,4 @@
-.net-worth-details {
+/*.net-worth-details {
   margin-top: 50px;
   background-color: #f9f0e5;
   padding: 20px;
@@ -20,21 +20,21 @@
   align-items: flex-start;
   padding: 20px;
   height: 100%;
-}
+}*/
 
-.net-worth-chart-section {
+/*.net-worth-chart-section {
   flex-grow: 1;
   padding: 20px;
   display: flex;
-  flex-direction: column; /* Stack content vertically */
-}
+  flex-direction: column; 
+}*/
 
 /* Make sure the chart canvas takes the remaining available space */
-.net-worth-chart-section canvas {
-  flex-grow: 1; /* This ensures the chart fills the remaining space */
+/*.net-worth-chart-section canvas {
+  flex-grow: 1;
   width: 100% !important;
   height: 100% !important;
-}
+}*/
 
 .net_worth-oat {
   display: flex;               /* Flexbox layout to align image and text horizontally */
@@ -45,6 +45,7 @@
   width: 100%;                 /* Make sure the border spans the full width */
   box-sizing: border-box;      /* Include padding in the element's total width */
   margin-bottom: 20px;         /* Space below the container */
+  
 }
 
 .oat-net-worth-specs {
@@ -52,3 +53,16 @@
   height: auto;
   margin-right: 15px;          /* Space between the image and the text container */
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
