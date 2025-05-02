@@ -16,6 +16,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const typeContainerFood = document.getElementById('typeContainerFood');
     const typeContainerTrans = document.getElementById('typeContainerTrans');
 
+
+    const ledgerBtn = document.querySelector(".ledger-btn");
+    const ledgerModal = document.getElementById("ledgerModal");
+    const ledgerClose = document.querySelector(".ledger-close");
+    const ledgerMonthPicker = document.getElementById("ledgerMonth");
+    const ledgerCategorySelect = document.getElementById("ledgerCategory");
+    const loadLedgerDataBtn = document.getElementById("loadLedgerData");
+    const ledgerTableHead = document.getElementById("ledgerTableHead");
+    const ledgerTableBody = document.getElementById("ledgerTableBody");
+
     /*------------------------------------------------------------*/
     // FORMATTERS
     function formatMonthLabel(isoMonth) {
@@ -547,6 +557,89 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
+    // Open modal on button click
+    ledgerBtn.addEventListener("click", () => {
+        ledgerModal.style.display = "block";
+    });
+
+    // Close modal on (x) click
+    ledgerClose.addEventListener("click", () => {
+        ledgerModal.style.display = "none";
+    });
+
+
+    loadLedgerDataBtn.addEventListener("click", () => {
+        const category = ledgerCategorySelect.value;
+        const month = ledgerMonthPicker.value;
+
+        if (!category || !month) {
+            alert("Please select both a category and a month.");
+            return;
+        }
+
+        fetch(`/get_category_data?category=${category}&month=${month}`)
+            .then(res => res.json())
+            .then(data => {
+                ledgerTableHead.innerHTML = "";
+                ledgerTableBody.innerHTML = "";
+
+                if (!data || data.length === 0) {
+                    ledgerTableBody.innerHTML = `<tr><td colspan="4">No data available for this selection.</td></tr>`;
+                    return;
+                }
+
+                const headers = Object.keys(data[0]);
+                headers.forEach(header => {
+                    const th = document.createElement("th");
+                    th.textContent = header.charAt(0).toUpperCase() + header.slice(1);
+                    ledgerTableHead.appendChild(th);
+                });
+
+                data.forEach(row => {
+                    const tr = document.createElement("tr");
+                    headers.forEach(key => {
+                        const td = document.createElement("td");
+
+                        if (key === "date") {
+                            // Log the raw date value for debugging
+                            console.log("Raw Date Value:", row[key]);
+
+                            let isoDate = row[key];
+
+                            // Manually split the date string to remove the day of the week and time zone
+                            const dateParts = isoDate.split(", ")[1]; // This will give '01 Jan 2025 00:00:00 GMT'
+                            
+                            if (dateParts) {
+                                const [day, month, year] = dateParts.split(" "); // Split '01 Jan 2025' into ['01', 'Jan', '2025']
+
+                                // Format the date as "Month Day" (e.g., "Jan 1")
+                                const formattedDate = `${month} ${parseInt(day)}`;
+
+                                td.textContent = formattedDate; // e.g., "Jan 1"
+                            } else {
+                                td.textContent = "Invalid Date"; // Fallback if date is not valid
+                            }
+                        } else {
+                            td.textContent = row[key];
+                        }
+
+                        tr.appendChild(td);
+                    });
+
+                    ledgerTableBody.appendChild(tr);
+                });
+
+
+
+            })
+        .catch(err => {
+                console.error("Error loading ledger data:", err);
+                alert("Failed to load ledger data.");
+            });
+    });
+
+
+
     yearPicker.addEventListener("change", function () {
         updateYearLabel(this.value);
         updateIncomeTable(yearPicker.value);
@@ -564,6 +657,8 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("click", (event) => {
         if (event.target === modal) {
             modal.style.display = "none";
+        } else if (event.target === ledgerModal) {
+            ledgerModal.style.display = "none";
         }
     });
 

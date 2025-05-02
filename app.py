@@ -465,6 +465,35 @@ def get_budget_data():
 
     return jsonify(results)
 
+@app.route('/get_category_data', methods=['GET'])
+def get_category_data():
+    category = request.args.get('category')
+    month = request.args.get('month')  # Expected format: YYYY-MM
+
+    valid_categories = ["clothing", "drinks", "fitness", "food", "housing", "other", "subscriptions", "transportation"]
+    if not category or category not in valid_categories or not month:
+        return jsonify({"error": "Invalid category or month"}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    if category == "food":
+        query = "SELECT amount, date, memo FROM food WHERE DATE_FORMAT(date, '%Y-%m') = %s ORDER BY date DESC"
+    elif category == "transportation":
+        query = "SELECT amount, date, memo, subcategory FROM transportation WHERE DATE_FORMAT(date, '%Y-%m') = %s ORDER BY date DESC"
+    else:
+        query = f"SELECT amount, date, memo FROM {category} WHERE DATE_FORMAT(date, '%Y-%m') = %s ORDER BY date DESC"
+
+    cursor.execute(query, (month,))
+    data = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return jsonify(data)
+
+
+
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=5001)
 

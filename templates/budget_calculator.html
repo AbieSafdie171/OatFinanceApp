@@ -247,6 +247,42 @@
   </div>
 </div>
 
+<!-- Ledger Modal -->
+<div id="ledgerModal" class="modal">
+  <div class="modal-content">
+    <span class="close ledger-close">&times;</span>
+    <h3>View Ledger</h3>
+    
+    <div id="ledgerControls">
+        <label for="ledgerMonth">Month:</label>
+        <input type="month" id="ledgerMonth">
+
+        <label for="ledgerCategory">Category:</label>
+        <select id="ledgerCategory">
+            <option value="">-- Select Category --</option>
+            <option value="clothing">Clothing</option>
+            <option value="drinks">Drinks</option>
+            <option value="fitness">Fitness</option>
+            <option value="food">Food</option>
+            <option value="housing">Housing</option>
+            <option value="other">Other</option>
+            <option value="subscriptions">Subscriptions</option>
+            <option value="transportation">Transportation</option>
+        </select>
+
+        <button id="loadLedgerData">Load</button>
+    </div>
+
+    <table id="ledgerTable">
+      <thead><tr id="ledgerTableHead"></tr></thead>
+      <tbody id="ledgerTableBody"></tbody>
+    </table>
+
+  </div>
+</div>
+
+
+
 
 {% endblock %}
 
