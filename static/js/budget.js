@@ -126,13 +126,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 let expensesTotalNoHousingPercent = (expensesTotalNoHousing / income) * 100;
                 expensesTotalNoHousingPercent = expensesTotalNoHousingPercent.toFixed(2);
-                expenseNoHousing.textContent = `$${expensesTotalNoHousing.toFixed(2)} (${expensesTotalNoHousingPercent}%)`;
+                expenseNoHousing.textContent = `$${expensesTotalNoHousing.toFixed(2)} (${expensesTotalNoHousingPercent}% of income)`;
                 expenseNoHousing.style.color = "#ff0000";
 
                 const savings = income - expensesTotal;
                 let savings_percent = (savings / income) * 100
                 savings_percent = savings_percent.toFixed(2);
-                savingsValue.textContent = `$${savings.toFixed(2)} (${savings_percent}%)`;
+                savingsValue.textContent = `$${savings.toFixed(2)} (${savings_percent}% of income)`;
                 savingsValue.style.color = savings < 0 ? "#ff0000" : "green";
 
                 // Update percentages
