@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
 
-                // console.log(data);
+                console.log(month);
 
                 let expensesTotal = 0.0;
                 let expensesTotalNoHousing = 0.0;
@@ -126,14 +126,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 let expensesTotalNoHousingPercent = (expensesTotalNoHousing / income) * 100;
                 expensesTotalNoHousingPercent = expensesTotalNoHousingPercent.toFixed(2);
-                expenseNoHousing.textContent = `$${expensesTotalNoHousing.toFixed(2)} (${expensesTotalNoHousingPercent}% of income)`;
-                expenseNoHousing.style.color = "#ff0000";
 
-                const savings = income - expensesTotal;
-                let savings_percent = (savings / income) * 100
+                if (income > 0){
+                    expenseNoHousing.textContent = `$${expensesTotalNoHousing.toFixed(2)} (${expensesTotalNoHousingPercent}% of income)`;
+                    expenseNoHousing.style.color = "#ff0000";
+                } else{
+                    expenseNoHousing.textContent = `$${expensesTotalNoHousing.toFixed(2)}`;
+                    expenseNoHousing.style.color = "#ff0000";
+                }
+
+
+
+                let savings = income - expensesTotal;
+                if (savings < 0){
+                    savings = 0;
+                }
+
+                let savings_percent = (savings / income) * 100;
+
                 savings_percent = savings_percent.toFixed(2);
-                savingsValue.textContent = `$${savings.toFixed(2)} (${savings_percent}% of income)`;
-                savingsValue.style.color = savings < 0 ? "#ff0000" : "green";
+
+                if (income > 0){
+                    savingsValue.textContent = `$${savings.toFixed(2)} (${savings_percent}% of income)`;
+                    savingsValue.style.color = savings <= 0 ? "#ff0000" : "green";
+                } else{
+                    savingsValue.textContent = `$${savings.toFixed(2)}`;
+                    savingsValue.style.color = "#ff0000";
+                }
+
+
+
 
                 // Update percentages
                 for (const [category] of Object.entries(data)) {
@@ -274,7 +296,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
 
                 // console.log(data);
-                                let expensesTotal = 0.0;
+                let expensesTotal = 0.0;
                 let expensesTotalNoHousing = 0.0;
                 let income = 0.0;
 
@@ -335,15 +357,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 const expenseNoHousing = document.getElementById("expense-value-nohouse");
                 const savingsValue = document.getElementById("savings-value");
 
-                let expensesTotalNoHousingPercent = (expensesTotalNoHousing / income) * 100;
-                expensesTotalNoHousingPercent = expensesTotalNoHousingPercent.toFixed(2);
-                expenseNoHousing.textContent = `$${expensesTotalNoHousing.toFixed(2)} (${expensesTotalNoHousingPercent}%)`;
+                // let expensesTotalNoHousingPercent = (expensesTotalNoHousing / income) * 100;
+                // expensesTotalNoHousingPercent = expensesTotalNoHousingPercent.toFixed(2);
+                expenseNoHousing.textContent = `$${expensesTotalNoHousing.toFixed(2)}`;
                 expenseNoHousing.style.color = "#ff0000";
 
                 const savings = income - expensesTotal;
-                let savings_percent = (savings / income) * 100
-                savings_percent = savings_percent.toFixed(2);
-                savingsValue.textContent = `$${savings.toFixed(2)} (${savings_percent}%)`;
+                // let savings_percent = (savings / income) * 100
+                // savings_percent = savings_percent.toFixed(2);
+                savingsValue.textContent = `$${savings.toFixed(2)}`;
                 savingsValue.style.color = savings < 0 ? "#ff0000" : "green";
 
                 // Update percentages
@@ -460,13 +482,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 let expensesTotalNoHousingPercent = (expensesTotalNoHousing / income) * 100;
                 expensesTotalNoHousingPercent = expensesTotalNoHousingPercent.toFixed(2);
-                expenseNoHousing.textContent = `$${expensesTotalNoHousing.toFixed(2)} (${expensesTotalNoHousingPercent}%)`;
+                expenseNoHousing.textContent = `$${expensesTotalNoHousing.toFixed(2)} (${expensesTotalNoHousingPercent}% of avg income)`;
                 expenseNoHousing.style.color = "#ff0000";
 
                 const savings = income - expensesTotal;
                 let savings_percent = (savings / income) * 100
                 savings_percent = savings_percent.toFixed(2);
-                savingsValue.textContent = `$${savings.toFixed(2)} (${savings_percent}%)`;
+                savingsValue.textContent = `$${savings.toFixed(2)} (${savings_percent}% of average income)`;
                 savingsValue.style.color = savings < 0 ? "#ff0000" : "green";
 
                 // Update percentages
